@@ -68,8 +68,6 @@
     
     NSLog(@"%@",[SYBData mainData].allProjects);
     
-    [chapters createArraywith:project];
-    
     [nc pushViewController: chapters animated:YES];
 }
 

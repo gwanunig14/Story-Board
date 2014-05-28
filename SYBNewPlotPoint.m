@@ -7,7 +7,7 @@
 //
 
 #import "SYBNewPlotPoint.h"
-#import "syb"
+#import "SYBNewListItem.h"
 #import "SYBData.h"
 
 @interface SYBNewPlotPoint () <UIPickerViewDataSource,UIPickerViewDelegate>
@@ -16,6 +16,8 @@
 
 @implementation SYBNewPlotPoint
 {
+    SYBNewListItem * addNew;
+    
     NSArray * test1;
     NSArray * test2;
     NSArray * test3;
@@ -55,16 +57,21 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    test1 = [[SYBData mainData] allProjects][[SYBData mainData].selectedProject][@"characters"];
+    
+    NSLog(@"%@",test1);
+    
     background = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
 //    [self.view addSubview:background];
     
     storyThought = [[UITextView alloc]initWithFrame:CGRectMake(20, 80, SCREEN_WIDTH-40, 300)];
-    storyThought.backgroundColor = [UIColor yellowColor];
+    storyThought.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:storyThought];
     
     newChapterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-60, SCREEN_HEIGHT-162, 40, 40)];
     newChapterButton.layer.cornerRadius = newChapterButton.frame.size.height/2;
     newChapterButton.backgroundColor = [UIColor redColor];
+    [newChapterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newChapterButton];
     
     selectChapter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-162, SCREEN_WIDTH - 90, 40)];
@@ -75,6 +82,7 @@
     newCharacterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-60, SCREEN_HEIGHT-112, 40, 40)];
     newCharacterButton.layer.cornerRadius = newCharacterButton.frame.size.height/2;
     newCharacterButton.backgroundColor = [UIColor redColor];
+    [newCharacterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newCharacterButton];
     
     selectCharacter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-112, SCREEN_WIDTH-90, 40)];
@@ -106,7 +114,10 @@
 
 -(void)addItem:(UIButton *)sender
 {
-    
+    addNew = [[SYBNewListItem alloc]init];
+    addNew.view.frame = CGRectMake(10, 200, SCREEN_WIDTH-20, 60);
+    [storyThought removeFromSuperview];
+    [self.view addSubview:addNew.view];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

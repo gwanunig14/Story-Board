@@ -76,11 +76,12 @@
 {
     nc = self.navigationController;
 
-    NSDictionary * openProject = [SYBData mainData].allProjects[indexPath.row];
+    [SYBData mainData].selectedProject = (int)indexPath.row;
     
-    [chapters createArraywith:openProject];
+    NSLog(@"%i",[SYBData mainData].selectedProject);
     
     [nc pushViewController:chapters animated:YES];
+    NSLog(@"1");
 }
 
 /*

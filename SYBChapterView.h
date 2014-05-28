@@ -10,6 +10,4 @@
 
 @interface SYBChapterView : UITableViewController
 
--(void)createArraywith:(NSObject *)listItem;
-
 @end

@@ -14,7 +14,14 @@
 
 -(void)addNewProject:(NSMutableDictionary *)project;
 -(NSArray *)allProjects;
+-(NSDictionary *)currentProject;
+
+@property (nonatomic) int selectedProject;
+// selectedChapter
 
 @property (nonatomic) NSArray * colors;
+
+// - method to return selected project
+// - method to return selected chapter
 
 @end

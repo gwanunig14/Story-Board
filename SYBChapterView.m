@@ -12,13 +12,15 @@
 
 #import "SYBNewPlotPoint.h"
 
+#import "SYBData.h"
+
 @interface SYBChapterView ()
 
 @end
 
 @implementation SYBChapterView
 {
-    NSMutableArray * chapterInfo;
+    NSMutableArray * allChapters;
     
     SYBChapterInfo * chosenBlock;
     
@@ -30,9 +32,13 @@
     self = [super initWithStyle:style];
     if (self)
     {
-        chapterInfo = [@[]mutableCopy];
+        NSLog(@"2");
+        allChapters = [@[]mutableCopy];
+        NSLog(@"3");
+        [allChapters addObject:[SYBData mainData].currentProject[@"projectInfo"]];
+        NSLog(@"4");
         chosenBlock = [[SYBChapterInfo alloc]init];
-        
+        NSLog(@"5");
         plotWindow = [[SYBNewPlotPoint alloc]init];
     }
     return self;
@@ -47,14 +53,14 @@
     self.navigationItem.rightBarButtonItem = createNewPlotPoint;
 }
 
--(void)createArraywith:(NSDictionary *)listItem
-{
-    chapterInfo = listItem[@"projectInfo"];
-}
+//-(void)createArraywith:(NSDictionary *)listItem
+//{
+//    allChapters = listItem[@"projectInfo"];
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [chapterInfo count];
+    return [allChapters count];
 }
 
 
@@ -64,7 +70,7 @@
     
     UILabel * chapterName = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, self.view.frame.size.width -12, 20)];
     
-    chapterName.text = chapterInfo[indexPath.row][@"heading"];
+    chapterName.text = allChapters[indexPath.row][@"heading"];
     
     if (cell == nil)
     {
@@ -78,8 +84,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray * selectedChapter = (NSArray *)chapterInfo[indexPath.row][@"info"];
-    
+    NSArray * selectedChapter = (NSArray *)allChapters[indexPath.row][@"info"];
+        
     [chosenBlock fillInfoWithArray:selectedChapter];
     
     [self.navigationController pushViewController:chosenBlock animated:YES];

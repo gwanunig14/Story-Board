@@ -32,6 +32,10 @@
     {
         projects = [@[@{@"title": @"Gods and Men"},
                       @{@"title": @"SteamPunk",
+                        @"characters":@[
+                                    @"Bob",
+                                    @"Jen"
+                                ],
                         @"projectInfo":@[@{@"heading":@"chapter1",
                                            @"info":@[@"Jerry walks down the path.",
                                                      @"Carl moves into his new house.",
@@ -48,6 +52,7 @@
                         [UIColor blueColor],
                         [UIColor purpleColor]];
         
+        self.selectedProject = 1;
     }
     return self;
 }
@@ -62,5 +67,10 @@
     return [projects copy];
 }
 
+-(NSDictionary *)currentProject
+{
+    
+    return projects[self.selectedProject];
+}
 
 @end

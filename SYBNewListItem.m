@@ -22,12 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        newListItem = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 100, 40)];
-        [self.view addSubview:newListItem];
-        
-        UIButton * addItem = [[UIButton alloc]initWithFrame:CGRectMake(120, 10, 40, 40)];
-        addItem.layer.cornerRadius = 20;
-        [self.view addSubview:addItem];
+        self.view.backgroundColor = [UIColor blueColor];
     }
     return self;
 }
@@ -36,6 +31,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    newListItem = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, self.view.frame.size.width-70, 40)];
+    newListItem.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:newListItem];
+    
+    UIButton * addItem = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-50, 10, 40, 40)];
+    addItem.layer.cornerRadius = 20;
+    addItem.backgroundColor = [UIColor redColor];
+    [self.view addSubview:addItem];
 }
 
 - (void)didReceiveMemoryWarning
