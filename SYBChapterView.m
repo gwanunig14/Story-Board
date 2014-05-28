@@ -20,7 +20,7 @@
 
 @implementation SYBChapterView
 {
-    NSMutableArray * allChapters;
+    NSArray * allChapters;
     
     SYBChapterInfo * chosenBlock;
     
@@ -32,13 +32,10 @@
     self = [super initWithStyle:style];
     if (self)
     {
-        NSLog(@"2");
-        allChapters = [@[]mutableCopy];
-        NSLog(@"3");
-        [allChapters addObject:[SYBData mainData].currentProject[@"projectInfo"]];
-        NSLog(@"4");
+        allChapters = [SYBData mainData].currentProject[@"projectInfo"];
+        
         chosenBlock = [[SYBChapterInfo alloc]init];
-        NSLog(@"5");
+        
         plotWindow = [[SYBNewPlotPoint alloc]init];
     }
     return self;

@@ -39,8 +39,6 @@
     int h = self.view.frame.size.height;
     int w = self.view.frame.size.width;
     
-    chapters = [[SYBChapterView alloc]init];
-    
     projectName = [[UITextField alloc]initWithFrame:CGRectMake(20, h/4, w-40, 40)];
     projectName.backgroundColor=[UIColor blueColor];
     projectName.placeholder = @"Project Name";
@@ -64,9 +62,13 @@
     NSMutableDictionary * project = [@{@"title":projectName.text,
                                        @"info":[@[]mutableCopy]}mutableCopy];
     
+    [SYBData mainData].selectedProject = (int)[[SYBData mainData].allProjects count];
+    
     [[SYBData mainData] addNewProject:project];
     
-    NSLog(@"%@",[SYBData mainData].allProjects);
+    chapters = [[SYBChapterView alloc]init];
+    
+    NSLog(@"%@",[SYBData mainData].currentProject);
     
     [nc pushViewController: chapters animated:YES];
 }

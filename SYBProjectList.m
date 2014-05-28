@@ -24,7 +24,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        chapters = [[SYBChapterView alloc]init];
+        
         self.view.backgroundColor = [UIColor greenColor];
     
     }
@@ -78,10 +78,10 @@
 
     [SYBData mainData].selectedProject = (int)indexPath.row;
     
-    NSLog(@"%i",[SYBData mainData].selectedProject);
+    chapters = [[SYBChapterView alloc]init];
     
     [nc pushViewController:chapters animated:YES];
-    NSLog(@"1");
+
 }
 
 /*

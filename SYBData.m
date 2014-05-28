@@ -35,7 +35,7 @@
                         @"characters":@[
                                     @"Bob",
                                     @"Jen"
-                                ],
+                                    ],
                         @"projectInfo":@[@{@"heading":@"chapter1",
                                            @"info":@[@"Jerry walks down the path.",
                                                      @"Carl moves into his new house.",
@@ -51,8 +51,6 @@
                         [UIColor greenColor],
                         [UIColor blueColor],
                         [UIColor purpleColor]];
-        
-        self.selectedProject = 1;
     }
     return self;
 }
@@ -71,6 +69,11 @@
 {
     
     return projects[self.selectedProject];
+}
+
+-(NSArray *)currentCharacters
+{
+    return self.currentProject[@"characters"];
 }
 
 @end

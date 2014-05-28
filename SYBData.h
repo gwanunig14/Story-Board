@@ -14,6 +14,7 @@
 
 -(void)addNewProject:(NSMutableDictionary *)project;
 -(NSArray *)allProjects;
+-(NSArray *)currentCharacters;
 -(NSDictionary *)currentProject;
 
 @property (nonatomic) int selectedProject;

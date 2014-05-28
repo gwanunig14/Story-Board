@@ -17,7 +17,6 @@
 
 @implementation SYBStartup
 {
-    SYBChapterView * chapters;
     SYBNewProjectView * newScreen;
     SYBProjectList * loadScreen;
     
@@ -42,8 +41,6 @@
         loadProject.layer.cornerRadius = loadProject.frame.size.height/4;
         [loadProject addTarget:self action:@selector(loadProjects) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:loadProject];
-        
-        chapters = [[SYBChapterView alloc]init];
         
         newScreen = [[SYBNewProjectView alloc]init];
         loadScreen = [[SYBProjectList alloc]init];
