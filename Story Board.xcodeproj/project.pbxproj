@@ -24,7 +24,6 @@
 		9CE4F404192D1D3500A32881 /* SYBChapterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F403192D1D3500A32881 /* SYBChapterView.m */; };
 		9CE4F48F1934C43E00A32881 /* SYBChapterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F48E1934C43E00A32881 /* SYBChapterInfo.m */; };
 		9CE4F4921934C73F00A32881 /* SYBNewPlotPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F4911934C73F00A32881 /* SYBNewPlotPoint.m */; };
-		9CE4F4961935188900A32881 /* SYBNewListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F4951935188900A32881 /* SYBNewListItem.m */; };
 		9CFF4D3E192694AC00FED5E3 /* SYBNewProjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFF4D3D192694AC00FED5E3 /* SYBNewProjectView.m */; };
 		9CFF4D421926952000FED5E3 /* SYBData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFF4D411926952000FED5E3 /* SYBData.m */; };
 /* End PBXBuildFile section */
@@ -66,8 +65,6 @@
 		9CE4F48E1934C43E00A32881 /* SYBChapterInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBChapterInfo.m; sourceTree = "<group>"; };
 		9CE4F4901934C73F00A32881 /* SYBNewPlotPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBNewPlotPoint.h; sourceTree = "<group>"; };
 		9CE4F4911934C73F00A32881 /* SYBNewPlotPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBNewPlotPoint.m; sourceTree = "<group>"; };
-		9CE4F4941935188900A32881 /* SYBNewListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBNewListItem.h; sourceTree = "<group>"; };
-		9CE4F4951935188900A32881 /* SYBNewListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBNewListItem.m; sourceTree = "<group>"; };
 		9CFF4D3C192694AC00FED5E3 /* SYBNewProjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBNewProjectView.h; sourceTree = "<group>"; };
 		9CFF4D3D192694AC00FED5E3 /* SYBNewProjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBNewProjectView.m; sourceTree = "<group>"; };
 		9CFF4D401926952000FED5E3 /* SYBData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBData.h; sourceTree = "<group>"; };
@@ -110,7 +107,6 @@
 				9CE4F4901934C73F00A32881 /* SYBNewPlotPoint.h */,
 				9CE4F4911934C73F00A32881 /* SYBNewPlotPoint.m */,
 				9CFF4D3F192694D000FED5E3 /* Data */,
-				9CE4F4931935186600A32881 /* New Item Windows */,
 				9CFF4D3B1926948A00FED5E3 /* Open Windows */,
 				9C723C191925275400B151FB /* Story Board */,
 				9C723C321925275400B151FB /* Story BoardTests */,
@@ -177,15 +173,6 @@
 				9C723C351925275400B151FB /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		9CE4F4931935186600A32881 /* New Item Windows */ = {
-			isa = PBXGroup;
-			children = (
-				9CE4F4941935188900A32881 /* SYBNewListItem.h */,
-				9CE4F4951935188900A32881 /* SYBNewListItem.m */,
-			);
-			name = "New Item Windows";
 			sourceTree = "<group>";
 		};
 		9CFF4D3B1926948A00FED5E3 /* Open Windows */ = {
@@ -310,7 +297,6 @@
 				9CFF4D3E192694AC00FED5E3 /* SYBNewProjectView.m in Sources */,
 				9C723C201925275400B151FB /* main.m in Sources */,
 				9CFF4D421926952000FED5E3 /* SYBData.m in Sources */,
-				9CE4F4961935188900A32881 /* SYBNewListItem.m in Sources */,
 				9CE4F404192D1D3500A32881 /* SYBChapterView.m in Sources */,
 				9CE4F48F1934C43E00A32881 /* SYBChapterInfo.m in Sources */,
 				9C723C241925275400B151FB /* SYBAppDelegate.m in Sources */,

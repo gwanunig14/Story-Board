@@ -59,8 +59,9 @@
         return;
     }
     
-    NSMutableDictionary * project = [@{@"title":projectName.text,
-                                       @"info":[@[]mutableCopy]}mutableCopy];
+    NSDictionary * project = @{@"title":projectName.text,
+                               @"characters":[@{}mutableCopy],
+                               @"projectInfo":[@[]mutableCopy]};
     
     [SYBData mainData].selectedProject = (int)[[SYBData mainData].allProjects count];
     
@@ -69,6 +70,8 @@
     chapters = [[SYBChapterView alloc]init];
     
     NSLog(@"%@",[SYBData mainData].currentProject);
+    
+    
     
     [nc pushViewController: chapters animated:YES];
 }

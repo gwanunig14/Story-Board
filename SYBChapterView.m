@@ -32,11 +32,9 @@
     self = [super initWithStyle:style];
     if (self)
     {
-        allChapters = [SYBData mainData].currentProject[@"projectInfo"];
-        
-        chosenBlock = [[SYBChapterInfo alloc]init];
-        
         plotWindow = [[SYBNewPlotPoint alloc]init];
+        
+        allChapters = [SYBData mainData].currentProject[@"projectInfo"];
     }
     return self;
 }
@@ -50,10 +48,10 @@
     self.navigationItem.rightBarButtonItem = createNewPlotPoint;
 }
 
-//-(void)createArraywith:(NSDictionary *)listItem
-//{
-//    allChapters = listItem[@"projectInfo"];
-//}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -65,7 +63,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    UILabel * chapterName = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, self.view.frame.size.width -12, 20)];
+    UILabel * chapterName = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -12, 20)];
     
     chapterName.text = allChapters[indexPath.row][@"heading"];
     
@@ -81,16 +79,19 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray * selectedChapter = (NSArray *)allChapters[indexPath.row][@"info"];
-        
-    [chosenBlock fillInfoWithArray:selectedChapter];
+    chosenBlock = [[SYBChapterInfo alloc]init];
+    
+    [SYBData mainData].selectedChapter = (int)indexPath.row;
     
     [self.navigationController pushViewController:chosenBlock animated:YES];
 }
 
 -(void)newPlotWindow
 {
-    [self.navigationController pushViewController: plotWindow animated:YES];
+    UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
+    [self.navigationController presentViewController:nc animated:YES completion:^{
+        
+    }];
 }
 
 /*

@@ -7,22 +7,29 @@
 //
 
 #import "SYBNewPlotPoint.h"
-#import "SYBNewListItem.h"
+#import "SYBChapterView.h"
+#import "SYBChapterInfo.h"
 #import "SYBData.h"
 
-@interface SYBNewPlotPoint () <UIPickerViewDataSource,UIPickerViewDelegate>
+@interface SYBNewPlotPoint () <UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate>
 
 @end
 
 @implementation SYBNewPlotPoint
 {
-    SYBNewListItem * addNew;
+    SYBChapterInfo * storyPoints;
+    SYBChapterView * chapterList;
     
-    NSArray * test1;
-    NSArray * test2;
-    NSArray * test3;
+    NSMutableArray * scrollArray;
     
-    UIView * background;
+    NSInteger button;
+    NSInteger characterAssignment;
+    NSInteger chapterAssignment;
+    
+    UIView * addNewBackground;
+    UITextField * newItemName;
+    UIButton * addItemButton;
+    
     UITextView * storyThought;
     
     UIButton * selectChapter;
@@ -39,12 +46,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        test1 = @[@"Joey",
-                 @"Trent",
-                 @"Mary"];
-        test2 = @[@"Chapter1",
-                  @"Chapter2",
-                  @"Chapter3"];
+        storyThought.delegate = self;
+        
     }
     return self;
 }
@@ -57,38 +60,68 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    test1 = [[SYBData mainData] allProjects][[SYBData mainData].selectedProject][@"characters"];
+    addNewBackground = [[UIView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 60)];
+    addNewBackground.backgroundColor = [UIColor blueColor];
+
+    newItemName = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 90, 40)];
+    newItemName.backgroundColor = [UIColor lightGrayColor];
+    [addNewBackground addSubview:newItemName];
     
-    NSLog(@"%@",test1);
+    addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 70 , 10, 40, 40)];
+    addItemButton.backgroundColor = [UIColor redColor];
+    addItemButton.layer.cornerRadius = 20;
+    [addItemButton addTarget:self action:@selector(addNewItemToArray) forControlEvents:UIControlEventTouchUpInside];
+    [addNewBackground addSubview:addItemButton];
     
-    background = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-//    [self.view addSubview:background];
-    
-    storyThought = [[UITextView alloc]initWithFrame:CGRectMake(20, 80, SCREEN_WIDTH-40, 300)];
+    storyThought = [[UITextView alloc]initWithFrame:CGRectMake(20, 80, SCREEN_WIDTH-40, SCREEN_HEIGHT - 300)];
     storyThought.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:storyThought];
     
     newChapterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-60, SCREEN_HEIGHT-162, 40, 40)];
     newChapterButton.layer.cornerRadius = newChapterButton.frame.size.height/2;
     newChapterButton.backgroundColor = [UIColor redColor];
+    [newChapterButton setTitle:@"+" forState:UIControlStateNormal];
     [newChapterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newChapterButton];
     
     selectChapter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-162, SCREEN_WIDTH - 90, 40)];
     selectChapter.backgroundColor = [UIColor blueColor];
+    selectChapter.tag = 0;
+    if ([[SYBData mainData].chapters count] != 0)
+    {
+        [selectChapter setTitle:[NSString stringWithFormat:@"%@",[SYBData mainData].chapters[0][@"heading"]] forState:UIControlStateNormal];
+    }else{
+        [selectChapter setTitle:@"chapter/scene" forState:UIControlStateNormal];
+    }
     [selectChapter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectChapter];
     
     newCharacterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-60, SCREEN_HEIGHT-112, 40, 40)];
     newCharacterButton.layer.cornerRadius = newCharacterButton.frame.size.height/2;
     newCharacterButton.backgroundColor = [UIColor redColor];
+    [newCharacterButton setTitle:@"+" forState:UIControlStateNormal];
     [newCharacterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newCharacterButton];
     
     selectCharacter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-112, SCREEN_WIDTH-90, 40)];
+    selectCharacter.tag = 0;
     selectCharacter.backgroundColor = [UIColor blueColor];
+    if ([[SYBData mainData].characters count] != 0)
+    {
+        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:0]] forState:UIControlStateNormal];
+    }else{
+        [selectCharacter setTitle:@"character" forState:UIControlStateNormal];
+    }
     [selectCharacter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectCharacter];
+    
+    UIButton * addPlotPoint = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT - 62, SCREEN_WIDTH - 40, 40)];
+    addPlotPoint.layer.cornerRadius = 20;
+    addPlotPoint.backgroundColor = [UIColor yellowColor];
+    [addPlotPoint addTarget:self action:@selector(addNewPlotPoint) forControlEvents:UIControlEventTouchUpInside];
+    [addPlotPoint setTitle:@"Add To Story" forState:UIControlStateNormal];
+    [self.view addSubview:addPlotPoint];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,10 +132,18 @@
 
 -(void)openList:(UIButton *)sender
 {
-    if (sender == selectChapter) {
-        test3 = test2;
+    scrollArray = [@[]mutableCopy];
+    if (sender == selectChapter)
+    {
+        for (NSDictionary * chapter in [SYBData mainData].chapters)
+        {
+            [scrollArray addObject:chapter[@"heading"]];
+        }
     }else{
-        test3 = test1;
+        for (NSString * character in [[SYBData mainData].characters allKeys])
+        {
+            [scrollArray addObject:character];
+        }
     }
     
     listPick = [[UIPickerView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-162, SCREEN_WIDTH - SCREEN_WIDTH, 162)];
@@ -112,48 +153,81 @@
     [self.view addSubview:listPick];
 }
 
+-(void)addNewPlotPoint
+{
+    NSLog(@"%@",[SYBData mainData].chapters[chapterAssignment][@"info"]);
+    NSDictionary * plotPoint = @{@"plotpoint":storyThought.text,
+                                 @"character":@(characterAssignment)};
+    [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:chapterAssignment];
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
 -(void)addItem:(UIButton *)sender
 {
-    addNew = [[SYBNewListItem alloc]init];
-    addNew.view.frame = CGRectMake(10, 200, SCREEN_WIDTH-20, 60);
+    if (sender == newChapterButton) {
+        button = 1;
+    } else {
+        button = 2;
+    }
     [storyThought removeFromSuperview];
-    [self.view addSubview:addNew.view];
+    [self.view addSubview:addNewBackground];
+}
+
+-(void)addNewItemToArray
+{
+    NSDictionary * newItem;
+    
+    if (button == 1)
+    {
+        [selectChapter setTitle:newItemName.text forState:UIControlStateNormal];
+        newItem = @{@"heading":newItemName.text,
+                    @"info":[@[]mutableCopy]};
+        [[SYBData mainData] addNewChapter:newItem];
+    }else
+    {
+        [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
+        [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
+    }
+    
+    [addNewBackground removeFromSuperview];
+    [self.view addSubview:storyThought];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [listPick removeFromSuperview];
+    [storyThought resignFirstResponder];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    [chosen setTitle:[NSString stringWithFormat:@"%@",test3[row]] forState:UIControlStateNormal];
+    [chosen setTitle:[NSString stringWithFormat:@"%@",scrollArray[row]] forState:UIControlStateNormal];
+    chosen.tag = row;
+    chapterAssignment = selectChapter.tag;
+    characterAssignment = selectCharacter.tag;
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return test3[row];
+    return scrollArray[row];
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [test3 count];
+    return [scrollArray count];
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {return 1;}
 
 - (BOOL)automaticallyAdjustsScrollViewInsets { return NO; }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

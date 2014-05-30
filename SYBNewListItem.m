@@ -42,7 +42,14 @@
     UIButton * addItem = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-50, 10, 40, 40)];
     addItem.layer.cornerRadius = 20;
     addItem.backgroundColor = [UIColor redColor];
+    [addItem addTarget:self action:@selector(createNew) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addItem];
+}
+
+-(void)createNew
+{
+    NSLog(@"pressed");
+    [self.delegate updateSingletonArrayWithLabel:newListItem.text];
 }
 
 - (void)didReceiveMemoryWarning

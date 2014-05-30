@@ -12,12 +12,22 @@
 
 +(SYBData *)mainData;
 
--(void)addNewProject:(NSMutableDictionary *)project;
+-(void)addNewProject:(NSDictionary *)project;
+-(void)addNewChapter:(NSDictionary *)chapter;
+-(void)addNewCharacter:(NSString *)character withNumber:(NSInteger)number;
+-(void)addNewPlotPoint:(NSDictionary *)plotPoint atIndex:(NSInteger)index;
+
+-(void)saveData;
+
+
 -(NSArray *)allProjects;
--(NSArray *)currentCharacters;
+-(NSMutableDictionary *)characters;
+-(NSMutableArray *)chapters;
 -(NSDictionary *)currentProject;
+-(NSDictionary *)currentChapter;
 
 @property (nonatomic) int selectedProject;
+@property (nonatomic) int selectedChapter;
 // selectedChapter
 
 @property (nonatomic) NSArray * colors;

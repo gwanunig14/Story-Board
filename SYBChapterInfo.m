@@ -10,6 +10,8 @@
 
 #import "SYBNewPlotPoint.h"
 
+#import "SYBData.h"
+
 @interface SYBChapterInfo ()
 
 @end
@@ -27,21 +29,29 @@
     if (self)
     {
         plotWindow = [[SYBNewPlotPoint alloc]init];
+        
+        bulletPoints = [SYBData mainData].currentChapter[@"info"];
     }
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    
-    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    UIBarButtonItem * createNewPlotPoint = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newPlotWindow)];
+    createNewPlotPoint.tintColor = [UIColor blueColor];
+    self.navigationItem.rightBarButtonItems = @[self.editButtonItem, createNewPlotPoint];
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,25 +69,36 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    UILabel * plotPoint = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, self.view.frame.size.width -12, 20)];
+    UILabel * plotPoint = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -50, 20)];
     
-    plotPoint.text = bulletPoints[indexPath.row];
+    plotPoint.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
     
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
+    self.tableView.rowHeight = plotPoint.frame.size.height;
+    
     [cell addSubview:plotPoint];
+    
+    int colorNumber = [bulletPoints[indexPath.row][@"character"] intValue];
+    
+    cell.backgroundColor = [SYBData mainData].colors[colorNumber];
     
     // Configure the cell...
     
     return cell;
 }
 
--(void)fillInfoWithArray:(NSArray *)array
+-(void)newPlotWindow
 {
-    bulletPoints = array;
+    UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
+    [self.navigationController presentViewController:nc animated:YES completion:^{
+        
+    }];
 }
 
 /*
@@ -102,31 +123,18 @@
 }
 */
 
-/*
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    [[SYBData mainData] saveData];
 }
-*/
 
-/*
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -8,9 +8,15 @@
 
 #import "SYBData.h"
 
+@interface SYBData ()
+
+@property  (nonatomic) NSMutableArray * projects;
+
+@end
+
 @implementation SYBData
 {
-    NSMutableArray * projects;
+//    NSMutableArray * projects;
 }
 
 +(SYBData *)mainData
@@ -30,20 +36,7 @@
     self = [super init];
     if (self)
     {
-        projects = [@[@{@"title": @"Gods and Men"},
-                      @{@"title": @"SteamPunk",
-                        @"characters":@[
-                                    @"Bob",
-                                    @"Jen"
-                                    ],
-                        @"projectInfo":@[@{@"heading":@"chapter1",
-                                           @"info":@[@"Jerry walks down the path.",
-                                                     @"Carl moves into his new house.",
-                                                     @"Alice moves away."]},
-                                         @{@"heading":@"chapter2"},
-                                         @{@"heading":@"chapter3"},
-                                         @{@"heading":@"chapter4"}]}]
-                    mutableCopy];
+        [self loadProjects];
         
         self.colors = @[[UIColor redColor],
                         [UIColor orangeColor],
@@ -51,29 +44,102 @@
                         [UIColor greenColor],
                         [UIColor blueColor],
                         [UIColor purpleColor]];
+        
+        /* for (nsstring * key in [dictionary allkeys])
+            (
+         
+            )
+         */
     }
     return self;
 }
 
--(void)addNewProject:(NSMutableDictionary *)project
+-(NSMutableArray *)projects
 {
-    [projects addObject:project];
+    if(_projects == nil)
+    {
+        _projects = [@[]mutableCopy];
+    }
+    return _projects;
+}
+
+-(void)addNewProject:(NSDictionary *)project
+{
+    [self.projects addObject:project];
+    
+    [self saveData];
 }
 
 -(NSArray *)allProjects
 {
-    return [projects copy];
+    return [self.projects copy];
 }
 
 -(NSDictionary *)currentProject
 {
-    
-    return projects[self.selectedProject];
+    return self.projects[self.selectedProject];
 }
 
--(NSArray *)currentCharacters
+-(NSDictionary *)currentChapter
+{
+    return self.chapters[self.selectedChapter];
+}
+
+-(void)addNewCharacter:(NSString *)character withNumber:(NSInteger)number
+{
+    [self.characters setObject:@(number) forKey:character];
+    
+    [self saveData];
+}
+
+-(NSMutableDictionary *)characters
 {
     return self.currentProject[@"characters"];
+}
+
+-(void)addNewChapter:(NSDictionary *)chapter
+{
+    [self.chapters addObject:chapter];
+    
+    [self saveData];
+}
+
+-(NSMutableArray *)chapters
+{
+    return self.currentProject[@"projectInfo"];
+}
+
+-(void)addNewPlotPoint:(NSDictionary *)plotPoint atIndex:(NSInteger)index
+{
+    NSMutableArray * chapter = self.chapters[index][@"info"];
+    
+    [chapter addObject:plotPoint];
+    
+    [self saveData];
+}
+
+-(void)saveData
+{
+    NSLog(@"saved");
+    NSString * path = [self listArchivePath];
+    NSData * data = [NSKeyedArchiver archivedDataWithRootObject:self.projects];
+    [data writeToFile:path options:NSDataWritingAtomic error:nil];
+}
+
+- (NSString *)listArchivePath
+{
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = documentDirectories[0];
+    return [documentDirectory stringByAppendingPathComponent:@"writingProject.data"];
+}
+
+-(void)loadProjects
+{
+    NSLog(@"loaded");
+    NSString * path = [self listArchivePath];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+       self.projects = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    }
 }
 
 @end

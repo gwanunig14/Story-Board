@@ -10,6 +10,4 @@
 
 @interface SYBChapterInfo : UITableViewController
 
--(void)fillInfoWithArray:(NSArray *)array;
-
 @end

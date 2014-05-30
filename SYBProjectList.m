@@ -17,6 +17,7 @@
 @implementation SYBProjectList
 {
     SYBChapterView * chapters;
+    SYBData * data;
     UINavigationController * nc;
 }
 
@@ -25,6 +26,7 @@
     self = [super initWithStyle:style];
     if (self) {
         
+        data = [[SYBData alloc]init];
         self.view.backgroundColor = [UIColor greenColor];
     
     }
@@ -47,8 +49,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
