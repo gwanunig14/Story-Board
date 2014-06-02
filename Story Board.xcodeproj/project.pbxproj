@@ -20,6 +20,8 @@
 		9C723C371925275400B151FB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C723C351925275400B151FB /* InfoPlist.strings */; };
 		9C723C391925275400B151FB /* Story_BoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C723C381925275400B151FB /* Story_BoardTests.m */; };
 		9C723C441925278000B151FB /* SYBStartup.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C723C431925278000B151FB /* SYBStartup.m */; };
+		9C96166C193BA73A00750183 /* SYBSettingsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C96166B193BA73A00750183 /* SYBSettingsMenu.m */; };
+		9C96166F193BA75700750183 /* SYBSettingsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C96166E193BA75700750183 /* SYBSettingsButton.m */; };
 		9C9FC9671927AFEA005ECDB5 /* SYBProjectList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FC9661927AFEA005ECDB5 /* SYBProjectList.m */; };
 		9CE4F404192D1D3500A32881 /* SYBChapterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F403192D1D3500A32881 /* SYBChapterView.m */; };
 		9CE4F48F1934C43E00A32881 /* SYBChapterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F48E1934C43E00A32881 /* SYBChapterInfo.m */; };
@@ -57,6 +59,10 @@
 		9C723C381925275400B151FB /* Story_BoardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Story_BoardTests.m; sourceTree = "<group>"; };
 		9C723C421925278000B151FB /* SYBStartup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBStartup.h; sourceTree = "<group>"; };
 		9C723C431925278000B151FB /* SYBStartup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBStartup.m; sourceTree = "<group>"; };
+		9C96166A193BA73A00750183 /* SYBSettingsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SYBSettingsMenu.h; path = ../../../SelfyApp/Selfy/SYBSettingsMenu.h; sourceTree = "<group>"; };
+		9C96166B193BA73A00750183 /* SYBSettingsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SYBSettingsMenu.m; path = ../../../SelfyApp/Selfy/SYBSettingsMenu.m; sourceTree = "<group>"; };
+		9C96166D193BA75700750183 /* SYBSettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SYBSettingsButton.h; path = ../../../SelfyApp/Selfy/SYBSettingsButton.h; sourceTree = "<group>"; };
+		9C96166E193BA75700750183 /* SYBSettingsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SYBSettingsButton.m; path = ../../../SelfyApp/Selfy/SYBSettingsButton.m; sourceTree = "<group>"; };
 		9C9FC9651927AFEA005ECDB5 /* SYBProjectList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBProjectList.h; sourceTree = "<group>"; };
 		9C9FC9661927AFEA005ECDB5 /* SYBProjectList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBProjectList.m; sourceTree = "<group>"; };
 		9CE4F402192D1D3500A32881 /* SYBChapterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBChapterView.h; sourceTree = "<group>"; };
@@ -112,6 +118,10 @@
 				9C723C321925275400B151FB /* Story BoardTests */,
 				9C723C121925275400B151FB /* Frameworks */,
 				9C723C111925275400B151FB /* Products */,
+				9C96166A193BA73A00750183 /* SYBSettingsMenu.h */,
+				9C96166B193BA73A00750183 /* SYBSettingsMenu.m */,
+				9C96166D193BA75700750183 /* SYBSettingsButton.h */,
+				9C96166E193BA75700750183 /* SYBSettingsButton.m */,
 			);
 			sourceTree = "<group>";
 		};
@@ -295,8 +305,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CFF4D3E192694AC00FED5E3 /* SYBNewProjectView.m in Sources */,
+				9C96166C193BA73A00750183 /* SYBSettingsMenu.m in Sources */,
 				9C723C201925275400B151FB /* main.m in Sources */,
 				9CFF4D421926952000FED5E3 /* SYBData.m in Sources */,
+				9C96166F193BA75700750183 /* SYBSettingsButton.m in Sources */,
 				9CE4F404192D1D3500A32881 /* SYBChapterView.m in Sources */,
 				9CE4F48F1934C43E00A32881 /* SYBChapterInfo.m in Sources */,
 				9C723C241925275400B151FB /* SYBAppDelegate.m in Sources */,

@@ -12,6 +12,8 @@
 	<dict>
 		<key>41067786-C95C-4F60-B1A7-A5A74057C443</key>
 		<string>https://github.com/gwanunig14/Story-Board.git</string>
+		<key>BD7C89A7-0F06-47C1-A797-4E5474AEA567</key>
+		<string>https://github.com/gwanunig14/SelfyApp.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Story Board.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>41067786-C95C-4F60-B1A7-A5A74057C443</key>
 		<string>../..</string>
+		<key>BD7C89A7-0F06-47C1-A797-4E5474AEA567</key>
+		<string>../../../../../SelfyApp</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/gwanunig14/Story-Board.git</string>
@@ -28,6 +32,14 @@
 	<string>41067786-C95C-4F60-B1A7-A5A74057C443</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BD7C89A7-0F06-47C1-A797-4E5474AEA567</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SelfyApp</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

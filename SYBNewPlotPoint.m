@@ -48,6 +48,7 @@
     {
         storyThought.delegate = self;
         
+        self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -62,10 +63,6 @@
 {
     addNewBackground = [[UIView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 60)];
     addNewBackground.backgroundColor = [UIColor blueColor];
-
-    newItemName = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 90, 40)];
-    newItemName.backgroundColor = [UIColor lightGrayColor];
-    [addNewBackground addSubview:newItemName];
     
     addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 70 , 10, 40, 40)];
     addItemButton.backgroundColor = [UIColor redColor];
@@ -108,7 +105,7 @@
     selectCharacter.backgroundColor = [UIColor blueColor];
     if ([[SYBData mainData].characters count] != 0)
     {
-        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:0]] forState:UIControlStateNormal];
+        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:1]] forState:UIControlStateNormal];
     }else{
         [selectCharacter setTitle:@"character" forState:UIControlStateNormal];
     }
@@ -140,7 +137,9 @@
             [scrollArray addObject:chapter[@"heading"]];
         }
     }else{
-        for (NSString * character in [[SYBData mainData].characters allKeys])
+        NSArray * aBC = [[[[SYBData mainData].characters allKeys] copy] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        
+        for (NSString * character in aBC)
         {
             [scrollArray addObject:character];
         }
@@ -150,16 +149,28 @@
     listPick.backgroundColor = [UIColor redColor];
     listPick.delegate = self;
     chosen = sender;
+    
     [self.view addSubview:listPick];
+    
+    if (sender.tag)
+    {
+        [listPick selectRow:sender.tag inComponent:0 animated:YES];
+    }
 }
 
 -(void)addNewPlotPoint
 {
-    NSLog(@"%@",[SYBData mainData].chapters[chapterAssignment][@"info"]);
-    NSDictionary * plotPoint = @{@"plotpoint":storyThought.text,
-                                 @"character":@(characterAssignment)};
-    [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:chapterAssignment];
-    
+    NSLog(@"story idea %@",storyThought.text);
+    if ([storyThought.text length] > 0)
+    {
+        NSDictionary * plotPoint = @{@"plotpoint":storyThought.text,
+                                     @"character":@(characterAssignment)};
+        
+        NSLog(@"story idea %@",storyThought.text);
+        
+        [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:chapterAssignment];
+    }
+        
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -173,6 +184,11 @@
         button = 2;
     }
     [storyThought removeFromSuperview];
+    
+    newItemName = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 90, 40)];
+    newItemName.backgroundColor = [UIColor lightGrayColor];
+    [addNewBackground addSubview:newItemName];
+    
     [self.view addSubview:addNewBackground];
 }
 
@@ -192,6 +208,7 @@
         [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
     }
     
+    [newItemName removeFromSuperview];
     [addNewBackground removeFromSuperview];
     [self.view addSubview:storyThought];
 }
@@ -211,9 +228,12 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     [chosen setTitle:[NSString stringWithFormat:@"%@",scrollArray[row]] forState:UIControlStateNormal];
+    
     chosen.tag = row;
     chapterAssignment = selectChapter.tag;
     characterAssignment = selectCharacter.tag;
+    
+    [pickerView removeFromSuperview];
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component

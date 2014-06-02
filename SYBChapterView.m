@@ -14,6 +14,10 @@
 
 #import "SYBData.h"
 
+#import "SYBSettingsButton.h"
+
+#import "SYBSettingsMenu.h"
+
 @interface SYBChapterView ()
 
 @end
@@ -25,6 +29,9 @@
     SYBChapterInfo * chosenBlock;
     
     SYBNewPlotPoint * plotWindow;
+    
+    SYBSettingsButton * settingsButtonView;
+    SYBSettingsMenu * settingsVC;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -46,6 +53,15 @@
     UIBarButtonItem * createNewPlotPoint = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newPlotWindow)];
     createNewPlotPoint.tintColor = [UIColor blueColor];
     self.navigationItem.rightBarButtonItem = createNewPlotPoint;
+    
+    settingsButtonView = [[SYBSettingsButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [settingsButtonView addTarget:self action:@selector(openSettings) forControlEvents:UIControlEventTouchUpInside];
+    settingsButtonView.tintColor = [UIColor blueColor];
+    settingsButtonView.toggledTintColor = [UIColor redColor];
+    //    photoEditor.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    
+    UIBarButtonItem * settingsButton = [[UIBarButtonItem alloc]initWithCustomView:settingsButtonView];
+    self.navigationItem.leftBarButtonItem = settingsButton;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -92,6 +108,32 @@
     [self.navigationController presentViewController:nc animated:YES completion:^{
         
     }];
+}
+
+-(void)openSettings
+{
+    NSLog(@"button pressing");
+    [settingsButtonView toggle];
+    
+    // ? is an if/else shortcut for true/false statements
+    int X = [settingsButtonView isToggled] ? SCREEN_WIDTH - 52 : 0;
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.navigationController.view.frame = CGRectMake(X, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    } completion:^(BOOL finished) {
+        if ([settingsButtonView isToggled])
+        {
+            [settingsVC.view removeFromSuperview];
+        }
+    }];
+    
+    if ([settingsButtonView isToggled])
+    {
+        settingsVC = [[SYBSettingsMenu alloc] initWithNibName:nil bundle:nil];
+        
+        settingsVC.view.frame = CGRectMake(52-SCREEN_WIDTH, 0, SCREEN_WIDTH - 50, SCREEN_HEIGHT);
+        [self.navigationController.view addSubview:settingsVC.view];
+    }
 }
 
 /*

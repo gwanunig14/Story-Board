@@ -10,14 +10,14 @@
 
 #import "SYBStartup.h"
 
-#import "SYBNewPlotPoint.h"
+#import "SYBSettingsMenu.h"
 
 @implementation SYBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    SYBNewPlotPoint * root = [[SYBNewPlotPoint alloc]init];
-    SYBStartup * root = [[SYBStartup alloc]init];
+    SYBSettingsMenu * root = [[SYBSettingsMenu alloc]init];
+//    SYBStartup * root = [[SYBStartup alloc]init];
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:root];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = nc;

@@ -44,12 +44,6 @@
                         [UIColor greenColor],
                         [UIColor blueColor],
                         [UIColor purpleColor]];
-        
-        /* for (nsstring * key in [dictionary allkeys])
-            (
-         
-            )
-         */
     }
     return self;
 }
@@ -70,9 +64,9 @@
     [self saveData];
 }
 
--(NSArray *)allProjects
+-(NSMutableArray *)allProjects
 {
-    return [self.projects copy];
+    return self.projects;
 }
 
 -(NSDictionary *)currentProject
@@ -100,6 +94,14 @@
 -(void)addNewChapter:(NSDictionary *)chapter
 {
     [self.chapters addObject:chapter];
+    
+    [self saveData];
+}
+
+-(void)moveChapter:(NSDictionary *)chapter fromIndex:(NSInteger)from toIndex:(NSInteger)to
+{
+    [self.chapters[self.selectedChapter] removeObjectAtIndex:from];
+    [self.chapters[self.selectedChapter] insertObject:chapter atIndex:to];
     
     [self saveData];
 }

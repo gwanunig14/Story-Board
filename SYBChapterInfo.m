@@ -12,13 +12,15 @@
 
 #import "SYBData.h"
 
-@interface SYBChapterInfo ()
+@interface SYBChapterInfo ()<UITextViewDelegate>
 
 @end
 
 @implementation SYBChapterInfo
 {
     NSArray * bulletPoints;
+    
+    UITextView * plotPoint;
     
     SYBNewPlotPoint * plotWindow;
 }
@@ -31,6 +33,10 @@
         plotWindow = [[SYBNewPlotPoint alloc]init];
         
         bulletPoints = [SYBData mainData].currentChapter[@"info"];
+        
+        plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 40, 0)];
+        
+        plotPoint.editable = NO;
     }
     return self;
 }
@@ -51,7 +57,7 @@
     
     UIBarButtonItem * createNewPlotPoint = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newPlotWindow)];
     createNewPlotPoint.tintColor = [UIColor blueColor];
-    self.navigationItem.rightBarButtonItems = @[self.editButtonItem, createNewPlotPoint];
+    self.navigationItem.rightBarButtonItems = @[createNewPlotPoint, self.editButtonItem];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,28 +75,43 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    UILabel * plotPoint = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -50, 20)];
-    
-    plotPoint.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
+//    plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
     
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    self.tableView.rowHeight = plotPoint.frame.size.height;
-    
-    [cell addSubview:plotPoint];
-    
+//    [plotPoint layoutIfNeeded];
+//    
+//    CGRect frame = plotPoint.frame;
+//    
+//    frame.size.height = plotPoint.contentSize.height + 10;
+//    
     int colorNumber = [bulletPoints[indexPath.row][@"character"] intValue];
     
-    cell.backgroundColor = [SYBData mainData].colors[colorNumber];
+    plotPoint.backgroundColor = [SYBData mainData].colors[colorNumber];
+    
+    [cell.contentView addSubview:plotPoint];
     
     // Configure the cell...
     
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
+    
+    [plotPoint layoutIfNeeded];
+    
+    CGRect frame = plotPoint.frame;
+    
+    frame.size.height = plotPoint.contentSize.height + 20;
+    
+    plotPoint.frame = frame;
+    
+    return frame.size.height;
 }
 
 -(void)newPlotWindow
@@ -101,33 +122,29 @@
     }];
 }
 
-/*
-// Override to support conditional editing of the table view.
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    [[SYBData mainData].currentChapter[@"info"] removeObjectAtIndex:indexPath.row];
+    
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
+    [[SYBData mainData] saveData];
 }
-*/
 
 
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    [[SYBData mainData] saveData];
+    [[SYBData mainData] moveChapter:bulletPoints[fromIndexPath.row] fromIndex:fromIndexPath.row toIndex:toIndexPath.row];
 }
 
 // Override to support conditional rearranging of the table view.
