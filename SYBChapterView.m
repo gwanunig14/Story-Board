@@ -14,17 +14,25 @@
 
 #import "SYBData.h"
 
+#import "SYBNewProjectView.h"
+
 #import "SYBSettingsButton.h"
 
 #import "SYBSettingsMenu.h"
 
-@interface SYBChapterView ()
+@interface SYBChapterView () <SYBSettingsDelegate>
 
 @end
 
 @implementation SYBChapterView
 {
     NSArray * allChapters;
+    
+    int X;
+    
+    int mover;
+    
+    SYBNewProjectView * new;
     
     SYBChapterInfo * chosenBlock;
     
@@ -40,6 +48,8 @@
     if (self)
     {
         plotWindow = [[SYBNewPlotPoint alloc]init];
+        
+        new = [[SYBNewProjectView alloc]init];
         
         allChapters = [SYBData mainData].currentProject[@"projectInfo"];
     }
@@ -58,10 +68,18 @@
     [settingsButtonView addTarget:self action:@selector(openSettings) forControlEvents:UIControlEventTouchUpInside];
     settingsButtonView.tintColor = [UIColor blueColor];
     settingsButtonView.toggledTintColor = [UIColor redColor];
-    //    photoEditor.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     UIBarButtonItem * settingsButton = [[UIBarButtonItem alloc]initWithCustomView:settingsButtonView];
     self.navigationItem.leftBarButtonItem = settingsButton;
+    
+    settingsVC = [[SYBSettingsMenu alloc] initWithNibName:nil bundle:nil];
+    
+    settingsVC.delegate = self;
+    
+    mover = 220;
+    X = -mover;
+    
+    settingsVC.view.frame = CGRectMake(X, 0, mover, SCREEN_HEIGHT);
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -71,7 +89,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [allChapters count];
+    return [[SYBData mainData].chapters count];
 }
 
 
@@ -112,28 +130,30 @@
 
 -(void)openSettings
 {
-    NSLog(@"button pressing");
     [settingsButtonView toggle];
     
-    // ? is an if/else shortcut for true/false statements
-    int X = [settingsButtonView isToggled] ? SCREEN_WIDTH - 52 : 0;
+    X = [settingsButtonView isToggled] ? 0 : -mover;
+    
+    if (X == 0)
+    {
+        [self.view addSubview:settingsVC.view];
+    }
     
     [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.navigationController.view.frame = CGRectMake(X, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        settingsVC.view.frame = CGRectMake(X, 0, mover, SCREEN_HEIGHT);
     } completion:^(BOOL finished) {
-        if ([settingsButtonView isToggled])
+        if (X == mover)
         {
             [settingsVC.view removeFromSuperview];
         }
     }];
     
-    if ([settingsButtonView isToggled])
-    {
-        settingsVC = [[SYBSettingsMenu alloc] initWithNibName:nil bundle:nil];
-        
-        settingsVC.view.frame = CGRectMake(52-SCREEN_WIDTH, 0, SCREEN_WIDTH - 50, SCREEN_HEIGHT);
-        [self.navigationController.view addSubview:settingsVC.view];
-    }
+}
+
+-(void)pushViewController:(UIViewController *)view
+{
+    NSLog(@"pressed");
+    [self.navigationController pushViewController:view animated:YES];
 }
 
 /*

@@ -8,6 +8,7 @@
 
 #import "SYBProjectList.h"
 #import "SYBChapterView.h"
+#import "SYBNavigator.h"
 #import "SYBData.h"
 
 @interface SYBProjectList ()
@@ -87,13 +88,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    nc = self.navigationController;
-
     [SYBData mainData].selectedProject = (int)indexPath.row;
     
     chapters = [[SYBChapterView alloc]init];
     
-    [nc pushViewController:chapters animated:YES];
+    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:chapters];
+    
+    [self.navigationController presentViewController:navController animated:YES completion:^{
+        [self.view removeFromSuperview];
+    }];
 
 }
 

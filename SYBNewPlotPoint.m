@@ -30,13 +30,12 @@
     UITextField * newItemName;
     UIButton * addItemButton;
     
-    UITextView * storyThought;
-    
     UIButton * selectChapter;
     UIButton * selectCharacter;
     UIButton * newChapterButton;
     UIButton * newCharacterButton;
     UIButton * chosen;
+    UIButton * addPlotPoint;
     
     UIPickerView * listPick;
 }
@@ -46,7 +45,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        storyThought.delegate = self;
+        NSLog(@"story idea %@",_storyThought.text);
+        
+        self.storyThought.delegate = self;
         
         self.view.backgroundColor = [UIColor whiteColor];
     }
@@ -61,8 +62,11 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    self.view.backgroundColor = [UIColor whiteColor];
     addNewBackground = [[UIView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 60)];
     addNewBackground.backgroundColor = [UIColor blueColor];
+    
+    self.editNumber = -1;
     
     addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 70 , 10, 40, 40)];
     addItemButton.backgroundColor = [UIColor redColor];
@@ -70,9 +74,9 @@
     [addItemButton addTarget:self action:@selector(addNewItemToArray) forControlEvents:UIControlEventTouchUpInside];
     [addNewBackground addSubview:addItemButton];
     
-    storyThought = [[UITextView alloc]initWithFrame:CGRectMake(20, 80, SCREEN_WIDTH-40, SCREEN_HEIGHT - 300)];
-    storyThought.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:storyThought];
+    self.storyThought = [[UITextView alloc]initWithFrame:CGRectMake(20, 80, SCREEN_WIDTH-40, SCREEN_HEIGHT - 300)];
+    self.storyThought.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:self.storyThought];
     
     newChapterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-60, SCREEN_HEIGHT-162, 40, 40)];
     newChapterButton.layer.cornerRadius = newChapterButton.frame.size.height/2;
@@ -105,14 +109,14 @@
     selectCharacter.backgroundColor = [UIColor blueColor];
     if ([[SYBData mainData].characters count] != 0)
     {
-        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:1]] forState:UIControlStateNormal];
+        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:0]] forState:UIControlStateNormal];
     }else{
         [selectCharacter setTitle:@"character" forState:UIControlStateNormal];
     }
     [selectCharacter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectCharacter];
     
-    UIButton * addPlotPoint = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT - 62, SCREEN_WIDTH - 40, 40)];
+    addPlotPoint = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT - 62, SCREEN_WIDTH - 40, 40)];
     addPlotPoint.layer.cornerRadius = 20;
     addPlotPoint.backgroundColor = [UIColor yellowColor];
     [addPlotPoint addTarget:self action:@selector(addNewPlotPoint) forControlEvents:UIControlEventTouchUpInside];
@@ -160,15 +164,20 @@
 
 -(void)addNewPlotPoint
 {
-    NSLog(@"story idea %@",storyThought.text);
-    if ([storyThought.text length] > 0)
+    if ([self.storyThought.text length] > 0)
     {
-        NSDictionary * plotPoint = @{@"plotpoint":storyThought.text,
+        NSDictionary * plotPoint = @{@"plotpoint":self.storyThought.text,
                                      @"character":@(characterAssignment)};
         
-        NSLog(@"story idea %@",storyThought.text);
+        NSLog(@"%@",self.storyThought.text);
         
-        [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:chapterAssignment];
+        if (self.editNumber < 0) {
+            NSLog(@"1");
+            [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:chapterAssignment];
+        }else{
+            NSLog(@"2");
+            [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
+        }
     }
         
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
@@ -183,7 +192,7 @@
     } else {
         button = 2;
     }
-    [storyThought removeFromSuperview];
+    [self.storyThought removeFromSuperview];
     
     newItemName = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 90, 40)];
     newItemName.backgroundColor = [UIColor lightGrayColor];
@@ -196,27 +205,32 @@
 {
     NSDictionary * newItem;
     
-    if (button == 1)
-    {
-        [selectChapter setTitle:newItemName.text forState:UIControlStateNormal];
-        newItem = @{@"heading":newItemName.text,
-                    @"info":[@[]mutableCopy]};
-        [[SYBData mainData] addNewChapter:newItem];
-    }else
-    {
-        [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
-        [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
+    if ([newItemName.text length] > 0) {
+        if (button == 1)
+        {
+            [selectChapter setTitle:newItemName.text forState:UIControlStateNormal];
+            newItem = @{@"heading":newItemName.text,
+                        @"info":[@[]mutableCopy]};
+            [[SYBData mainData] addNewChapter:newItem];
+        }else
+        {
+            [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
+            [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
+            
+            NSLog(@"%@",[SYBData mainData].characters);
+        }
     }
+    
     
     [newItemName removeFromSuperview];
     [addNewBackground removeFromSuperview];
-    [self.view addSubview:storyThought];
+    [self.view addSubview:self.storyThought];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [listPick removeFromSuperview];
-    [storyThought resignFirstResponder];
+    [self.storyThought resignFirstResponder];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -234,6 +248,12 @@
     characterAssignment = selectCharacter.tag;
     
     [pickerView removeFromSuperview];
+}
+
+-(void)textViewDidChange:(UITextView *)textView
+{
+    NSLog(@"button change");
+    [addItemButton setTitle:@"Add To Story" forState:UIControlStateNormal];
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component

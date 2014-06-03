@@ -8,6 +8,7 @@
 
 #import "SYBNewProjectView.h"
 #import "SYBChapterView.h"
+#import "SYBNavigator.h"
 #import "SYBData.h"
 
 @interface SYBNewProjectView () <UITextFieldDelegate>
@@ -20,8 +21,6 @@
     
     UITextField * projectName;
     UIButton * createProject;
-    
-    UINavigationController * nc;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,8 +47,6 @@
     createProject.backgroundColor = [UIColor redColor];
     [createProject addTarget:self action:@selector(addProject) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:createProject];
-    
-    nc = self.navigationController;
 }
 
 -(void)addProject
@@ -71,9 +68,11 @@
     
     NSLog(@"%@",[SYBData mainData].currentProject);
     
+    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:chapters];
     
-    
-    [nc pushViewController: chapters animated:YES];
+    [self.navigationController presentViewController:navController animated:YES completion:^{
+        [self.view removeFromSuperview];
+    }];
 }
 
 @end

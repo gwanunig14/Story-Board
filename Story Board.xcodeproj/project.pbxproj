@@ -106,22 +106,21 @@
 			children = (
 				9C723C421925278000B151FB /* SYBStartup.h */,
 				9C723C431925278000B151FB /* SYBStartup.m */,
+				9C96166A193BA73A00750183 /* SYBSettingsMenu.h */,
+				9C96166B193BA73A00750183 /* SYBSettingsMenu.m */,
 				9CE4F402192D1D3500A32881 /* SYBChapterView.h */,
 				9CE4F403192D1D3500A32881 /* SYBChapterView.m */,
 				9CE4F48D1934C43E00A32881 /* SYBChapterInfo.h */,
 				9CE4F48E1934C43E00A32881 /* SYBChapterInfo.m */,
 				9CE4F4901934C73F00A32881 /* SYBNewPlotPoint.h */,
 				9CE4F4911934C73F00A32881 /* SYBNewPlotPoint.m */,
+				9C935BF8193D3E3200A531BA /* Buttons */,
 				9CFF4D3F192694D000FED5E3 /* Data */,
 				9CFF4D3B1926948A00FED5E3 /* Open Windows */,
 				9C723C191925275400B151FB /* Story Board */,
 				9C723C321925275400B151FB /* Story BoardTests */,
 				9C723C121925275400B151FB /* Frameworks */,
 				9C723C111925275400B151FB /* Products */,
-				9C96166A193BA73A00750183 /* SYBSettingsMenu.h */,
-				9C96166B193BA73A00750183 /* SYBSettingsMenu.m */,
-				9C96166D193BA75700750183 /* SYBSettingsButton.h */,
-				9C96166E193BA75700750183 /* SYBSettingsButton.m */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,6 +182,15 @@
 				9C723C351925275400B151FB /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9C935BF8193D3E3200A531BA /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				9C96166D193BA75700750183 /* SYBSettingsButton.h */,
+				9C96166E193BA75700750183 /* SYBSettingsButton.m */,
+			);
+			name = Buttons;
 			sourceTree = "<group>";
 		};
 		9CFF4D3B1926948A00FED5E3 /* Open Windows */ = {

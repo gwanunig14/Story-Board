@@ -22,6 +22,8 @@
     
     UITextView * plotPoint;
     
+    NSMutableArray * plotPoints;
+    
     SYBNewPlotPoint * plotWindow;
 }
 
@@ -30,13 +32,17 @@
     self = [super initWithStyle:style];
     if (self)
     {
+        plotPoints = [@[] mutableCopy];
+        
         plotWindow = [[SYBNewPlotPoint alloc]init];
+        
+        NSLog(@"%@",[SYBData mainData].currentChapter[@"info"]);
         
         bulletPoints = [SYBData mainData].currentChapter[@"info"];
         
-        plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 40, 0)];
-        
         plotPoint.editable = NO;
+        
+        self.tableView.separatorColor = [UIColor clearColor];
     }
     return self;
 }
@@ -68,6 +74,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"%d",(int)[bulletPoints count]);
     return [bulletPoints count];
 }
 
@@ -82,17 +89,13 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-//    [plotPoint layoutIfNeeded];
-//    
-//    CGRect frame = plotPoint.frame;
-//    
-//    frame.size.height = plotPoint.contentSize.height + 10;
-//    
+    UITextView * plot = [plotPoints objectAtIndex:indexPath.row];
+    
     int colorNumber = [bulletPoints[indexPath.row][@"character"] intValue];
     
-    plotPoint.backgroundColor = [SYBData mainData].colors[colorNumber];
+    plot.backgroundColor = [SYBData mainData].colors[colorNumber];
     
-    [cell.contentView addSubview:plotPoint];
+    [cell.contentView addSubview:plot];
     
     // Configure the cell...
     
@@ -101,6 +104,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 20, 0)];
+
     plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
     
     [plotPoint layoutIfNeeded];
@@ -109,9 +114,23 @@
     
     frame.size.height = plotPoint.contentSize.height + 20;
     
-    plotPoint.frame = frame;
+    plotPoint.frame = CGRectMake(10, 10, frame.size.width, frame.size.height - 20);
     
+    [plotPoints insertObject:plotPoint atIndex:indexPath.row];
+
     return frame.size.height;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITextView * editText = plotPoints[indexPath.row];
+    NSLog(@"%li",(long)indexPath.row);
+    UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
+    [self.navigationController presentViewController:nc animated:YES completion:^{
+        plotWindow.storyThought.text = editText.text;
+        plotWindow.editNumber = (int)indexPath.row;
+        [plotPoints removeObjectAtIndex:indexPath.row];
+    }];
 }
 
 -(void)newPlotWindow
@@ -144,6 +163,7 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    NSLog(@"%@",bulletPoints[fromIndexPath.row]);
     [[SYBData mainData] moveChapter:bulletPoints[fromIndexPath.row] fromIndex:fromIndexPath.row toIndex:toIndexPath.row];
 }
 
