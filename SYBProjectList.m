@@ -26,9 +26,11 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        
         data = [[SYBData alloc]init];
         self.view.backgroundColor = [UIColor greenColor];
+        for (NSDictionary * titles in [SYBData mainData].allProjects) {
+            NSLog(@"%@", titles[@"title"]);
+        }
     
     }
     return self;
@@ -66,18 +68,20 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    NSMutableArray * titles = [@[]mutableCopy];
-    
-    for (NSDictionary * titleNames in [SYBData mainData].allProjects)
-    {
-        [titles addObject:titleNames[@"title"]];
-    }
-    
-    NSArray * aBC = [titles sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+//    NSMutableArray * titles = [@[]mutableCopy];
+//    
+//    for (NSDictionary * titleNames in [SYBData mainData].allProjects)
+//    {
+//        [titles addObject:titleNames[@"title"]];
+//    }
+//    
+//    NSArray * aBC = [titles sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
     UILabel * projectName = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, self.view.frame.size.width -12, 20)];
     projectName.textAlignment = NSTextAlignmentCenter;
-    projectName.text = aBC[indexPath.row];
+    projectName.text = [SYBData mainData].allProjects[indexPath.row][@"key"];
+    
+    
     
     if (cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     
@@ -90,11 +94,14 @@
 {
     [SYBData mainData].selectedProject = (int)indexPath.row;
     
+    NSLog(@"1");
+    
+//    NSLog(@"%@",[SYBData mainData].allProjects[indexPath][@"title"]);
     chapters = [[SYBChapterView alloc]init];
-    
-    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:chapters];
-    
-    [self.navigationController presentViewController:navController animated:YES completion:^{
+    NSLog(@"2");
+    nc = [[UINavigationController alloc]initWithRootViewController:chapters];
+    NSLog(@"3");
+    [self.navigationController presentViewController:nc animated:YES completion:^{
         [self.view removeFromSuperview];
     }];
 

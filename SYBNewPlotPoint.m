@@ -23,8 +23,6 @@
     NSMutableArray * scrollArray;
     
     NSInteger button;
-    NSInteger characterAssignment;
-    NSInteger chapterAssignment;
     
     UIView * addNewBackground;
     UITextField * newItemName;
@@ -45,8 +43,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        NSLog(@"story idea %@",_storyThought.text);
-        
         self.storyThought.delegate = self;
         
         self.view.backgroundColor = [UIColor whiteColor];
@@ -167,16 +163,18 @@
     if ([self.storyThought.text length] > 0)
     {
         NSDictionary * plotPoint = @{@"plotpoint":self.storyThought.text,
-                                     @"character":@(characterAssignment)};
-        
-        NSLog(@"%@",self.storyThought.text);
+                                     @"character":@(self.characterAssignment)};
+
         
         if (self.editNumber < 0) {
-            NSLog(@"1");
-            [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:chapterAssignment];
+            [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }else{
-            NSLog(@"2");
-            [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
+            [[SYBData mainData].chapters[self.chapterAssignment][@"info"] removeObjectAtIndex:self.editNumber];
+            if (self.editNumber != ([[SYBData mainData].chapters[self.chapterAssignment][@"info"] count]))
+            {
+                [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
+            }
+            [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }
     }
         
@@ -216,8 +214,6 @@
         {
             [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
             [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
-            
-            NSLog(@"%@",[SYBData mainData].characters);
         }
     }
     
@@ -244,15 +240,14 @@
     [chosen setTitle:[NSString stringWithFormat:@"%@",scrollArray[row]] forState:UIControlStateNormal];
     
     chosen.tag = row;
-    chapterAssignment = selectChapter.tag;
-    characterAssignment = selectCharacter.tag;
+    self.chapterAssignment = selectChapter.tag;
+    self.characterAssignment = selectCharacter.tag;
     
     [pickerView removeFromSuperview];
 }
 
 -(void)textViewDidChange:(UITextView *)textView
 {
-    NSLog(@"button change");
     [addItemButton setTitle:@"Add To Story" forState:UIControlStateNormal];
 }
 

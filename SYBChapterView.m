@@ -47,6 +47,7 @@
     self = [super initWithStyle:style];
     if (self)
     {
+        NSLog(@"%@",[SYBData mainData].currentProject);
         plotWindow = [[SYBNewPlotPoint alloc]init];
         
         new = [[SYBNewProjectView alloc]init];
@@ -63,6 +64,10 @@
     UIBarButtonItem * createNewPlotPoint = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newPlotWindow)];
     createNewPlotPoint.tintColor = [UIColor blueColor];
     self.navigationItem.rightBarButtonItem = createNewPlotPoint;
+    
+    UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2) - 40, 2, 80, 40)];
+    title.text = [SYBData mainData].currentProject[@"title"];
+    [self.navigationController.navigationBar addSubview:title];
     
     settingsButtonView = [[SYBSettingsButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [settingsButtonView addTarget:self action:@selector(openSettings) forControlEvents:UIControlEventTouchUpInside];
@@ -113,10 +118,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     chosenBlock = [[SYBChapterInfo alloc]init];
-    
     [SYBData mainData].selectedChapter = (int)indexPath.row;
-    
+
     [self.navigationController pushViewController:chosenBlock animated:YES];
 }
 

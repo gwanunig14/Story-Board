@@ -14,4 +14,8 @@
 
 @property (nonatomic) int editNumber;
 
+@property (nonatomic) NSInteger characterAssignment;
+
+@property (nonatomic) NSInteger chapterAssignment;
+
 @end

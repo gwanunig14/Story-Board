@@ -24,7 +24,7 @@
 -(NSMutableArray *)allProjects;
 -(NSMutableDictionary *)characters;
 -(NSMutableArray *)chapters;
--(NSDictionary *)currentProject;
+-(NSMutableDictionary *)currentProject;
 -(NSDictionary *)currentChapter;
 
 // move chapter from and to

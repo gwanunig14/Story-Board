@@ -6,19 +6,19 @@
 //  Copyright (c) 2014 T.J. All rights reserved.
 //
 
-#import "SYBNewProjectView.h"
+#import "SYBChangeName.h"
 #import "SYBChapterView.h"
 #import "SYBNavigator.h"
 #import "SYBData.h"
 
-@interface SYBNewProjectView () <UITextFieldDelegate>
+@interface SYBChangeName () <UITextFieldDelegate>
 
 @end
 
-@implementation SYBNewProjectView
+@implementation SYBChangeName
 {
     SYBChapterView * chapters;
-    UINavigationController * nc;
+    
     UITextField * projectName;
     UIButton * createProject;
 }
@@ -40,36 +40,24 @@
     
     projectName = [[UITextField alloc]initWithFrame:CGRectMake(20, h/4, w-40, 40)];
     projectName.backgroundColor=[UIColor blueColor];
-    projectName.placeholder = @"Project Name";
+    projectName.placeholder = self.oldTitle;
     [self.view addSubview:projectName];
     
     createProject = [[UIButton alloc]initWithFrame:CGRectMake(20, h/2, w-40, 40)];
     createProject.backgroundColor = [UIColor redColor];
-    [createProject addTarget:self action:@selector(addProject) forControlEvents:UIControlEventTouchUpInside];
+    [createProject addTarget:self action:@selector(editProject) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:createProject];
 }
 
--(void)addProject
+-(void)editProject
 {
-    if (projectName.text == nil)
-    {
-        return;
-    }
-    
-    NSDictionary * project = @{projectName.text:@{@"characters":[@{}mutableCopy],
-                                                  @"projectInfo":[@[]mutableCopy]}};
-    
-    [SYBData mainData].selectedProject = (int)[[SYBData mainData].allProjects count];
-    
-    [[SYBData mainData] addNewProject:project];
+    [[SYBData mainData].currentProject setObject:projectName.text forKey:@"title"];
     
     chapters = [[SYBChapterView alloc]init];
     
-    nc = [[UINavigationController alloc]initWithRootViewController:chapters];
+    NSLog(@"%@",[SYBData mainData].currentProject);
     
-    [self.navigationController presentViewController:nc animated:YES completion:^{
-        [self.view removeFromSuperview];
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

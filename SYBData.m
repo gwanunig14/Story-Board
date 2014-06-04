@@ -15,9 +15,6 @@
 @end
 
 @implementation SYBData
-{
-//    NSMutableArray * projects;
-}
 
 +(SYBData *)mainData
 {
@@ -114,7 +111,21 @@
 {
     [self.projects addObject:project];
     
-    [self saveData];
+    NSMutableArray * titles = [@[]mutableCopy];
+    
+    
+    NSLog(@"%@",self.projects);
+    
+//    for (NSDictionary * titleNames in self.projects)
+//    {
+//        [titles addObject:titleNames];
+//    }
+//    
+//    NSArray * aBC = [titles sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+//    
+//    NSLog(@"%@",aBC);
+//    
+//    [self saveData];
 }
 
 -(NSMutableArray *)allProjects

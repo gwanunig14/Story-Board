@@ -36,11 +36,7 @@
         
         plotWindow = [[SYBNewPlotPoint alloc]init];
         
-        NSLog(@"%@",[SYBData mainData].currentChapter[@"info"]);
-        
-        bulletPoints = [SYBData mainData].currentChapter[@"info"];
-        
-        plotPoint.editable = NO;
+//        bulletPoints = [SYBData mainData].currentChapter[@"info"];
         
         self.tableView.separatorColor = [UIColor clearColor];
     }
@@ -74,7 +70,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%d",(int)[bulletPoints count]);
+    bulletPoints = [SYBData mainData].currentChapter[@"info"];
     return [bulletPoints count];
 }
 
@@ -116,6 +112,8 @@
     
     plotPoint.frame = CGRectMake(10, 10, frame.size.width, frame.size.height - 20);
     
+    plotPoint.editable = NO;
+    
     [plotPoints insertObject:plotPoint atIndex:indexPath.row];
 
     return frame.size.height;
@@ -124,12 +122,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITextView * editText = plotPoints[indexPath.row];
-    NSLog(@"%li",(long)indexPath.row);
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
+    
     [self.navigationController presentViewController:nc animated:YES completion:^{
+        plotWindow.chapterAssignment = [SYBData mainData].selectedChapter;
+        plotWindow.characterAssignment = [bulletPoints[indexPath.row][@"character"] intValue];
         plotWindow.storyThought.text = editText.text;
         plotWindow.editNumber = (int)indexPath.row;
-        [plotPoints removeObjectAtIndex:indexPath.row];
     }];
 }
 
@@ -163,7 +162,6 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    NSLog(@"%@",bulletPoints[fromIndexPath.row]);
     [[SYBData mainData] moveChapter:bulletPoints[fromIndexPath.row] fromIndex:fromIndexPath.row toIndex:toIndexPath.row];
 }
 
