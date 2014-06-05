@@ -46,6 +46,9 @@
         self.storyThought.delegate = self;
         
         self.view.backgroundColor = [UIColor whiteColor];
+        
+        self.chapterAssignment = 0;
+        self.characterAssignment = 0;
     }
     return self;
 }
@@ -207,13 +210,16 @@
         if (button == 1)
         {
             [selectChapter setTitle:newItemName.text forState:UIControlStateNormal];
-            newItem = @{@"heading":newItemName.text,
-                        @"info":[@[]mutableCopy]};
+            newItem = [@{@"heading":newItemName.text,
+                        @"info":[@[]mutableCopy]} mutableCopy];
             [[SYBData mainData] addNewChapter:newItem];
+            self.chapterAssignment = [[SYBData mainData].chapters count] - 1;
+            
         }else
         {
             [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
             [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
+            self.characterAssignment = [[SYBData mainData].characters count];
         }
     }
     

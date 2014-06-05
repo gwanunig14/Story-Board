@@ -10,6 +10,8 @@
 
 #import "SYBNewPlotPoint.h"
 
+#import "SYBInfoCell.h"
+
 #import "SYBData.h"
 
 @interface SYBChapterInfo ()<UITextViewDelegate>
@@ -18,6 +20,8 @@
 
 @implementation SYBChapterInfo
 {
+    SYBInfoCell * cell;
+    
     NSArray * bulletPoints;
     
     UITextView * plotPoint;
@@ -76,22 +80,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-//    plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
+    cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[SYBInfoCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    UITextView * plot = [plotPoints objectAtIndex:indexPath.row];
+    cell.plotInfo = plotPoints[indexPath.row];
+    cell.colorNumber = [bulletPoints[indexPath.row][@"character"] intValue];
     
-    int colorNumber = [bulletPoints[indexPath.row][@"character"] intValue];
-    
-    plot.backgroundColor = [SYBData mainData].colors[colorNumber];
-    
-    [cell.contentView addSubview:plot];
+    [cell makeCell];
     
     // Configure the cell...
     
@@ -100,8 +99,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 20, 0)];
-
+    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 70, 0)];
+    
     plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
     
     [plotPoint layoutIfNeeded];
@@ -157,7 +156,6 @@
     
     [[SYBData mainData] saveData];
 }
-
 
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath

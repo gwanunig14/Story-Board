@@ -47,7 +47,6 @@
     self = [super initWithStyle:style];
     if (self)
     {
-        NSLog(@"%@",[SYBData mainData].currentProject);
         plotWindow = [[SYBNewPlotPoint alloc]init];
         
         new = [[SYBNewProjectView alloc]init];
@@ -65,8 +64,10 @@
     createNewPlotPoint.tintColor = [UIColor blueColor];
     self.navigationItem.rightBarButtonItem = createNewPlotPoint;
     
-    UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2) - 40, 2, 80, 40)];
-    title.text = [SYBData mainData].currentProject[@"title"];
+    UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2) - 100, 2, 200, 40)];
+    title.text = [SYBData mainData].currentTitle;
+    title.textAlignment = NSTextAlignmentCenter;
+    title.adjustsFontSizeToFitWidth = YES;
     [self.navigationController.navigationBar addSubview:title];
     
     settingsButtonView = [[SYBSettingsButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];

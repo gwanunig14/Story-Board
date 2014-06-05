@@ -1,34 +1,30 @@
 //
-//  SYBTableViewController.m
+//  SYBCharacterList.m
 //  Story Board
 //
-//  Created by T.J. Mercer on 5/17/14.
+//  Created by T.J. Mercer on 6/4/14.
 //  Copyright (c) 2014 T.J. All rights reserved.
 //
 
-#import "SYBProjectList.h"
-#import "SYBChapterView.h"
-#import "SYBNavigator.h"
+#import "SYBCharacterList.h"
+#import "SYBChangeName.h"
 #import "SYBData.h"
 
-@interface SYBProjectList ()
+@interface SYBCharacterList ()
 
 @end
 
-@implementation SYBProjectList
+@implementation SYBCharacterList
 {
-    SYBChapterView * chapters;
-    SYBData * data;
-    UINavigationController * nc;
+    NSDictionary * allCharacters;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-        data = [[SYBData alloc]init];
-        self.view.backgroundColor = [UIColor greenColor];
-    
+    if (self)
+    {
+        allCharacters = [SYBData mainData].currentProject[@"characters"];
     }
     return self;
 }
@@ -41,12 +37,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationTop];
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,55 +48,58 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[SYBData mainData].allProjects count];
+    // Return the number of rows in the section.
+    return [[SYBData mainData].characters count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    UILabel * projectName = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, self.view.frame.size.width -12, 20)];
-    projectName.textAlignment = NSTextAlignmentCenter;
-    projectName.text = [[SYBData mainData].allProjects allKeys][indexPath.row];
+    UILabel * characterName = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -12, 20)];
     
-    if (cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    characterName.text = [[SYBData mainData].characters allKeys][indexPath.row];
     
-    [cell addSubview:projectName];
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    
+    [cell addSubview:characterName];
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [SYBData mainData].selectedProject = (int)indexPath.row;
-    
-    chapters = [[SYBChapterView alloc]init];
-
-    nc = [[UINavigationController alloc]initWithRootViewController:chapters];
-
-    [self.navigationController presentViewController:nc animated:YES completion:^{
-        [self.view removeFromSuperview];
-    }];
-
+    SYBChangeName * newName = [[SYBChangeName alloc]init];
+    newName.function = 3;
+    newName.index = (int)indexPath.row;
+    newName.oldTitle = [allCharacters allKeys][indexPath.row];
+    [self.navigationController pushViewController:newName animated:YES];
 }
 
+/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
+*/
 
+/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[SYBData mainData].allProjects removeObjectForKey:[NSNumber numberWithInteger:indexPath.row]];
-    
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    
-    [[SYBData mainData] saveData];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
 }
+*/
 
 /*
 // Override to support rearranging the table view.

@@ -12,4 +12,8 @@
 
 @property (nonatomic) NSString * oldTitle;
 
+@property (nonatomic) int function;
+
+@property (nonatomic) int index;
+
 @end

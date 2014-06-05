@@ -10,8 +10,6 @@
 
 @interface SYBData ()
 
-@property  (nonatomic) NSMutableArray * projects;
-
 @end
 
 @implementation SYBData
@@ -98,44 +96,37 @@
     return self;
 }
 
--(NSMutableArray *)projects
+-(NSMutableDictionary *)projects
 {
     if(_projects == nil)
     {
-        _projects = [@[]mutableCopy];
+        _projects = [@{}mutableCopy];
     }
     return _projects;
 }
 
--(void)addNewProject:(NSDictionary *)project
+-(void)addNewProject:(NSDictionary *)project atKey:(NSString *)key
 {
-    [self.projects addObject:project];
+    NSLog(@"1");
     
-    NSMutableArray * titles = [@[]mutableCopy];
+    [self.projects setObject:project forKey:key];
     
-    
-    NSLog(@"%@",self.projects);
-    
-//    for (NSDictionary * titleNames in self.projects)
-//    {
-//        [titles addObject:titleNames];
-//    }
-//    
-//    NSArray * aBC = [titles sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-//    
-//    NSLog(@"%@",aBC);
-//    
-//    [self saveData];
+    [self saveData];
 }
 
--(NSMutableArray *)allProjects
+-(NSMutableDictionary *)allProjects
 {
     return self.projects;
 }
 
+-(NSString *)currentTitle
+{
+    return [self.projects allKeys][self.selectedProject];
+}
+
 -(NSDictionary *)currentProject
 {
-    return self.projects[self.selectedProject];
+    return [self.projects allValues][self.selectedProject];
 }
 
 -(NSDictionary *)currentChapter

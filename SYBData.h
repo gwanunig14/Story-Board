@@ -12,7 +12,7 @@
 
 +(SYBData *)mainData;
 
--(void)addNewProject:(NSDictionary *)project;
+-(void)addNewProject:(NSDictionary *)project atKey:(NSString *)key;
 -(void)addNewChapter:(NSDictionary *)chapter;
 -(void)moveChapter:(NSArray *)chapter fromIndex:(NSInteger)from toIndex:(NSInteger)to;
 -(void)addNewCharacter:(NSString *)character withNumber:(NSInteger)number;
@@ -21,9 +21,10 @@
 -(void)saveData;
 
 
--(NSMutableArray *)allProjects;
+-(NSMutableDictionary *)allProjects;
 -(NSMutableDictionary *)characters;
 -(NSMutableArray *)chapters;
+-(NSString *)currentTitle;
 -(NSMutableDictionary *)currentProject;
 -(NSDictionary *)currentChapter;
 
@@ -32,8 +33,9 @@
 // add object at index (to)
 
 
-@property (nonatomic) int selectedProject;
-@property (nonatomic) int selectedChapter;
+@property (nonatomic) NSMutableDictionary * projects;
+@property (nonatomic) NSInteger selectedProject;
+@property (nonatomic) NSInteger selectedChapter;
 
 @property (nonatomic) NSArray * colors;
 

@@ -56,12 +56,12 @@
         return;
     }
     
-    NSDictionary * project = @{projectName.text:@{@"characters":[@{}mutableCopy],
-                                                  @"projectInfo":[@[]mutableCopy]}};
+    NSDictionary * project = @{@"characters":[@{}mutableCopy],
+                               @"projectInfo":[@[]mutableCopy]};
     
     [SYBData mainData].selectedProject = (int)[[SYBData mainData].allProjects count];
     
-    [[SYBData mainData] addNewProject:project];
+    [[SYBData mainData] addNewProject:project atKey:projectName.text];
     
     chapters = [[SYBChapterView alloc]init];
     

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9C38F3A9193E4ABE00F9964C /* SYBChangeName.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C38F3A8193E4ABE00F9964C /* SYBChangeName.m */; };
+		9C46B3A0193F89BA00DB016F /* SYBChapterList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C46B39F193F89BA00DB016F /* SYBChapterList.m */; };
+		9C46B3A3193F989900DB016F /* SYBCharacterList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C46B3A2193F989900DB016F /* SYBCharacterList.m */; };
+		9C46B3A9193FC52900DB016F /* SYBInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C46B3A8193FC52900DB016F /* SYBInfoCell.m */; };
+		9C46B3AC193FCE0200DB016F /* SYBViewAll.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C46B3AB193FCE0200DB016F /* SYBViewAll.m */; };
 		9C723C141925275400B151FB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C723C131925275400B151FB /* Foundation.framework */; };
 		9C723C161925275400B151FB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C723C151925275400B151FB /* CoreGraphics.framework */; };
 		9C723C181925275400B151FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C723C171925275400B151FB /* UIKit.framework */; };
@@ -44,6 +48,14 @@
 /* Begin PBXFileReference section */
 		9C38F3A7193E4ABE00F9964C /* SYBChangeName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBChangeName.h; sourceTree = "<group>"; };
 		9C38F3A8193E4ABE00F9964C /* SYBChangeName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBChangeName.m; sourceTree = "<group>"; };
+		9C46B39E193F89BA00DB016F /* SYBChapterList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBChapterList.h; sourceTree = "<group>"; };
+		9C46B39F193F89BA00DB016F /* SYBChapterList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBChapterList.m; sourceTree = "<group>"; };
+		9C46B3A1193F989900DB016F /* SYBCharacterList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBCharacterList.h; sourceTree = "<group>"; };
+		9C46B3A2193F989900DB016F /* SYBCharacterList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBCharacterList.m; sourceTree = "<group>"; };
+		9C46B3A7193FC52900DB016F /* SYBInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBInfoCell.h; sourceTree = "<group>"; };
+		9C46B3A8193FC52900DB016F /* SYBInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBInfoCell.m; sourceTree = "<group>"; };
+		9C46B3AA193FCE0200DB016F /* SYBViewAll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBViewAll.h; sourceTree = "<group>"; };
+		9C46B3AB193FCE0200DB016F /* SYBViewAll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBViewAll.m; sourceTree = "<group>"; };
 		9C723C101925275400B151FB /* Story Board.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Story Board.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C723C131925275400B151FB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9C723C151925275400B151FB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -109,6 +121,10 @@
 			children = (
 				9C38F3A7193E4ABE00F9964C /* SYBChangeName.h */,
 				9C38F3A8193E4ABE00F9964C /* SYBChangeName.m */,
+				9C46B39E193F89BA00DB016F /* SYBChapterList.h */,
+				9C46B39F193F89BA00DB016F /* SYBChapterList.m */,
+				9C46B3A1193F989900DB016F /* SYBCharacterList.h */,
+				9C46B3A2193F989900DB016F /* SYBCharacterList.m */,
 			);
 			name = "Edit Views";
 			sourceTree = "<group>";
@@ -126,6 +142,8 @@
 				9CE4F48E1934C43E00A32881 /* SYBChapterInfo.m */,
 				9CE4F4901934C73F00A32881 /* SYBNewPlotPoint.h */,
 				9CE4F4911934C73F00A32881 /* SYBNewPlotPoint.m */,
+				9C46B3AA193FCE0200DB016F /* SYBViewAll.h */,
+				9C46B3AB193FCE0200DB016F /* SYBViewAll.m */,
 				9C38F3A6193E4A7900F9964C /* Edit Views */,
 				9C935BF8193D3E3200A531BA /* Buttons */,
 				9CFF4D3F192694D000FED5E3 /* Data */,
@@ -202,6 +220,8 @@
 			children = (
 				9C96166D193BA75700750183 /* SYBSettingsButton.h */,
 				9C96166E193BA75700750183 /* SYBSettingsButton.m */,
+				9C46B3A7193FC52900DB016F /* SYBInfoCell.h */,
+				9C46B3A8193FC52900DB016F /* SYBInfoCell.m */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -329,11 +349,15 @@
 				9C96166C193BA73A00750183 /* SYBSettingsMenu.m in Sources */,
 				9C723C201925275400B151FB /* main.m in Sources */,
 				9CFF4D421926952000FED5E3 /* SYBData.m in Sources */,
+				9C46B3A3193F989900DB016F /* SYBCharacterList.m in Sources */,
 				9C96166F193BA75700750183 /* SYBSettingsButton.m in Sources */,
 				9CE4F404192D1D3500A32881 /* SYBChapterView.m in Sources */,
 				9CE4F48F1934C43E00A32881 /* SYBChapterInfo.m in Sources */,
 				9C38F3A9193E4ABE00F9964C /* SYBChangeName.m in Sources */,
+				9C46B3AC193FCE0200DB016F /* SYBViewAll.m in Sources */,
+				9C46B3A9193FC52900DB016F /* SYBInfoCell.m in Sources */,
 				9C723C241925275400B151FB /* SYBAppDelegate.m in Sources */,
+				9C46B3A0193F89BA00DB016F /* SYBChapterList.m in Sources */,
 				9CE4F4921934C73F00A32881 /* SYBNewPlotPoint.m in Sources */,
 				9C9FC9671927AFEA005ECDB5 /* SYBProjectList.m in Sources */,
 				9C723C441925278000B151FB /* SYBStartup.m in Sources */,
