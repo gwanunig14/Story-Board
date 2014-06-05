@@ -14,6 +14,7 @@
 
 -(void)addNewProject:(NSDictionary *)project atKey:(NSString *)key;
 -(void)addNewChapter:(NSDictionary *)chapter;
+-(void)movePlotPoint:(NSArray *)plotPoint fromIndex:(NSInteger)from toIndex:(NSInteger)to;
 -(void)moveChapter:(NSArray *)chapter fromIndex:(NSInteger)from toIndex:(NSInteger)to;
 -(void)addNewCharacter:(NSString *)character withNumber:(NSInteger)number;
 -(void)addNewPlotPoint:(NSDictionary *)plotPoint atIndex:(NSInteger)index;

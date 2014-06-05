@@ -86,6 +86,8 @@
     X = -mover;
     
     settingsVC.view.frame = CGRectMake(X, 0, mover, SCREEN_HEIGHT);
+    
+    self.navigationItem.rightBarButtonItems = @[createNewPlotPoint, self.editButtonItem];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -104,6 +106,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     UILabel * chapterName = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -12, 20)];
+    
+    NSLog(@"%@", allChapters);
     
     chapterName.text = allChapters[indexPath.row][@"heading"];
     
@@ -184,21 +188,18 @@
 }
 */
 
-/*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    [[SYBData mainData] moveChapter:[SYBData mainData].chapters[fromIndexPath.row] fromIndex:fromIndexPath.row toIndex:toIndexPath.row];
 }
-*/
 
-/*
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
 
 /*
 #pragma mark - Navigation

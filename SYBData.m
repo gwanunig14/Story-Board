@@ -153,10 +153,18 @@
     [self saveData];
 }
 
--(void)moveChapter:(NSArray *)chapter fromIndex:(NSInteger)from toIndex:(NSInteger)to
+-(void)movePlotPoint:(NSArray *)plotPoint fromIndex:(NSInteger)from toIndex:(NSInteger)to
 {
     [self.currentChapter[@"info"] removeObjectAtIndex:from];
-    [self.currentChapter[@"info"] insertObject:chapter atIndex:to];
+    [self.currentChapter[@"info"] insertObject:plotPoint atIndex:to];
+    
+    [self saveData];
+}
+
+-(void)moveChapter:(NSArray *)chapter fromIndex:(NSInteger)from toIndex:(NSInteger)to
+{
+    [self.currentProject[@"projectInfo"] removeObjectAtIndex:from];
+    [self.currentProject[@"projectInfo"] insertObject:chapter atIndex:to];
     
     [self saveData];
 }
