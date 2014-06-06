@@ -14,6 +14,8 @@
 
 @property (nonatomic) NSInteger colorNumber;
 
+@property (nonatomic) UIButton * button;
+
 -(void)makeCell;
 
 @end

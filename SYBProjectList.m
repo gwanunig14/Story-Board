@@ -7,6 +7,7 @@
 //
 
 #import "SYBProjectList.h"
+#import "SYBNewProjectView.h"
 #import "SYBChapterView.h"
 #import "SYBNavigator.h"
 #import "SYBData.h"
@@ -18,6 +19,7 @@
 @implementation SYBProjectList
 {
     SYBChapterView * chapters;
+    SYBNewProjectView * new;
     SYBData * data;
     UINavigationController * nc;
 }
@@ -28,7 +30,8 @@
     if (self) {
         data = [[SYBData alloc]init];
         self.view.backgroundColor = [UIColor greenColor];
-    
+
+        
     }
     return self;
 }
@@ -41,12 +44,25 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    UIBarButtonItem * addNew = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newProject)];
+    self.navigationItem.rightBarButtonItem = addNew;
+    
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationTop];
+    if ([[SYBData mainData].projects count] == 0)
+    {
+        UITextView * welcome = [[UITextView alloc]initWithFrame:CGRectMake(40, 100, SCREEN_WIDTH - 80, 100)];
+        welcome.textAlignment = NSTextAlignmentCenter;
+        welcome.text =@"Welcome to \n Writer Blocks \n Click the + Button to Get Started";
+        welcome.backgroundColor = [UIColor blueColor];
+        [self.view addSubview:welcome];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,6 +121,12 @@
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     
     [[SYBData mainData] saveData];
+}
+
+-(void)newProject
+{
+    new = [[SYBNewProjectView alloc]init];
+    [self.navigationController pushViewController:new animated:YES];
 }
 
 /*

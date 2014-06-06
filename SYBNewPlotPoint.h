@@ -10,6 +10,8 @@
 
 @interface SYBNewPlotPoint : UIViewController
 
+-(void)buttonLabels;
+
 @property (nonatomic) UITextView * storyThought;
 
 @property (nonatomic) int editNumber;

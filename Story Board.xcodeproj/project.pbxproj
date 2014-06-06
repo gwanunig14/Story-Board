@@ -24,7 +24,6 @@
 		9C723C2F1925275400B151FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C723C171925275400B151FB /* UIKit.framework */; };
 		9C723C371925275400B151FB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C723C351925275400B151FB /* InfoPlist.strings */; };
 		9C723C391925275400B151FB /* Story_BoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C723C381925275400B151FB /* Story_BoardTests.m */; };
-		9C723C441925278000B151FB /* SYBStartup.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C723C431925278000B151FB /* SYBStartup.m */; };
 		9C96166C193BA73A00750183 /* SYBSettingsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C96166B193BA73A00750183 /* SYBSettingsMenu.m */; };
 		9C96166F193BA75700750183 /* SYBSettingsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C96166E193BA75700750183 /* SYBSettingsButton.m */; };
 		9C9FC9671927AFEA005ECDB5 /* SYBProjectList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9FC9661927AFEA005ECDB5 /* SYBProjectList.m */; };
@@ -72,8 +71,6 @@
 		9C723C341925275400B151FB /* Story BoardTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Story BoardTests-Info.plist"; sourceTree = "<group>"; };
 		9C723C361925275400B151FB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9C723C381925275400B151FB /* Story_BoardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Story_BoardTests.m; sourceTree = "<group>"; };
-		9C723C421925278000B151FB /* SYBStartup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBStartup.h; sourceTree = "<group>"; };
-		9C723C431925278000B151FB /* SYBStartup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBStartup.m; sourceTree = "<group>"; };
 		9C96166A193BA73A00750183 /* SYBSettingsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SYBSettingsMenu.h; path = ../../../SelfyApp/Selfy/SYBSettingsMenu.h; sourceTree = "<group>"; };
 		9C96166B193BA73A00750183 /* SYBSettingsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SYBSettingsMenu.m; path = ../../../SelfyApp/Selfy/SYBSettingsMenu.m; sourceTree = "<group>"; };
 		9C96166D193BA75700750183 /* SYBSettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SYBSettingsButton.h; path = ../../../SelfyApp/Selfy/SYBSettingsButton.h; sourceTree = "<group>"; };
@@ -132,8 +129,6 @@
 		9C723C071925275400B151FB = {
 			isa = PBXGroup;
 			children = (
-				9C723C421925278000B151FB /* SYBStartup.h */,
-				9C723C431925278000B151FB /* SYBStartup.m */,
 				9C96166A193BA73A00750183 /* SYBSettingsMenu.h */,
 				9C96166B193BA73A00750183 /* SYBSettingsMenu.m */,
 				9CE4F402192D1D3500A32881 /* SYBChapterView.h */,
@@ -360,7 +355,6 @@
 				9C46B3A0193F89BA00DB016F /* SYBChapterList.m in Sources */,
 				9CE4F4921934C73F00A32881 /* SYBNewPlotPoint.m in Sources */,
 				9C9FC9671927AFEA005ECDB5 /* SYBProjectList.m in Sources */,
-				9C723C441925278000B151FB /* SYBStartup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

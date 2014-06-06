@@ -8,13 +8,13 @@
 
 #import "SYBAppDelegate.h"
 
-#import "SYBStartup.h"
+#import "SYBProjectList.h"
 
 @implementation SYBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    SYBStartup * root = [[SYBStartup alloc]init];
+    SYBProjectList * root = [[SYBProjectList alloc]init];
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:root];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = nc;

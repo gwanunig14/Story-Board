@@ -7,7 +7,6 @@
 //
 
 #import "SYBNewPlotPoint.h"
-#import "SYBChapterView.h"
 #import "SYBChapterInfo.h"
 #import "SYBData.h"
 
@@ -17,9 +16,6 @@
 
 @implementation SYBNewPlotPoint
 {
-    SYBChapterInfo * storyPoints;
-    SYBChapterView * chapterList;
-    
     NSMutableArray * scrollArray;
     
     NSInteger button;
@@ -87,12 +83,6 @@
     selectChapter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-162, SCREEN_WIDTH - 90, 40)];
     selectChapter.backgroundColor = [UIColor blueColor];
     selectChapter.tag = 0;
-    if ([[SYBData mainData].chapters count] != 0)
-    {
-        [selectChapter setTitle:[NSString stringWithFormat:@"%@",[SYBData mainData].chapters[0][@"heading"]] forState:UIControlStateNormal];
-    }else{
-        [selectChapter setTitle:@"chapter/scene" forState:UIControlStateNormal];
-    }
     [selectChapter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectChapter];
     
@@ -106,12 +96,6 @@
     selectCharacter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-112, SCREEN_WIDTH-90, 40)];
     selectCharacter.tag = 0;
     selectCharacter.backgroundColor = [UIColor blueColor];
-    if ([[SYBData mainData].characters count] != 0)
-    {
-        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:0]] forState:UIControlStateNormal];
-    }else{
-        [selectCharacter setTitle:@"character" forState:UIControlStateNormal];
-    }
     [selectCharacter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectCharacter];
     
@@ -122,6 +106,33 @@
     [addPlotPoint setTitle:@"Add To Story" forState:UIControlStateNormal];
     [self.view addSubview:addPlotPoint];
     
+}
+
+-(void)buttonLabels
+{
+    if ([[SYBData mainData].chapters count] != 0)
+    {
+        [selectChapter setTitle:[NSString stringWithFormat:@"%@",[SYBData mainData].chapters[0][@"heading"]] forState:UIControlStateNormal];
+    }else{
+        [selectChapter setTitle:@"chapter/scene" forState:UIControlStateNormal];
+    }
+    
+    if (self.chapterAssignment > 0)
+    {
+        [selectChapter setTitle:[NSString stringWithFormat:@"%@",[SYBData mainData].chapters[self.chapterAssignment][@"heading"]] forState:UIControlStateNormal];
+    }
+    
+    if ([[SYBData mainData].characters count] != 0)
+    {
+        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:0]] forState:UIControlStateNormal];
+    }else{
+        [selectCharacter setTitle:@"character" forState:UIControlStateNormal];
+    }
+    
+    if (self.characterAssignment > 0)
+    {
+        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:self.characterAssignment]] forState:UIControlStateNormal];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -163,20 +174,25 @@
 
 -(void)addNewPlotPoint
 {
+    NSLog(@"edit %ld",(long)self.editNumber);
+    NSLog(@"count %@",[SYBData mainData].chapters);
+    
     if ([self.storyThought.text length] > 0)
     {
         NSDictionary * plotPoint = @{@"plotpoint":self.storyThought.text,
                                      @"character":@(self.characterAssignment)};
-
         
         if (self.editNumber < 0) {
             [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }else{
             [[SYBData mainData].chapters[self.chapterAssignment][@"info"] removeObjectAtIndex:self.editNumber];
-            if (self.editNumber != ([[SYBData mainData].chapters[self.chapterAssignment][@"info"] count]))
-            {
-                [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
-            }
+            NSLog(@"1");
+//            if (self.editNumber != [[SYBData mainData].chapters[self.chapterAssignment][@"info"] count])
+//            {
+//                NSLog(@"1");
+//                [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
+//            }
+            NSLog(@"1");
             [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }
     }

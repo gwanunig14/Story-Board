@@ -29,6 +29,8 @@
     NSMutableArray * plotPoints;
     
     SYBNewPlotPoint * plotWindow;
+    
+    UIButton * cellButton;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -47,7 +49,7 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(void)viewDidAppear:(BOOL)animated
 {
     [self.tableView reloadData];
 }
@@ -92,6 +94,12 @@
     
     [cell makeCell];
     
+    cellButton = [[UIButton alloc]initWithFrame:cell.frame];
+    [cellButton addTarget:self action:@selector(cellClick:) forControlEvents:UIControlEventTouchUpInside];
+    cellButton.tag = indexPath.row;
+    
+    [self.tableView addSubview:cellButton];
+    
     // Configure the cell...
     
     return cell;
@@ -118,16 +126,17 @@
     return frame.size.height;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)cellClick:(UIButton *)sender
 {
-    UITextView * editText = plotPoints[indexPath.row];
+    UITextView * editText = plotPoints[sender.tag];
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
     
     [self.navigationController presentViewController:nc animated:YES completion:^{
         plotWindow.chapterAssignment = [SYBData mainData].selectedChapter;
-        plotWindow.characterAssignment = [bulletPoints[indexPath.row][@"character"] intValue];
+        plotWindow.characterAssignment = [bulletPoints[sender.tag][@"character"] intValue];
         plotWindow.storyThought.text = editText.text;
-        plotWindow.editNumber = (int)indexPath.row;
+        plotWindow.editNumber = (int)sender.tag;
+        [plotWindow buttonLabels];
     }];
 }
 
@@ -135,7 +144,7 @@
 {
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
     [self.navigationController presentViewController:nc animated:YES completion:^{
-        
+        [plotWindow buttonLabels];
     }];
 }
 

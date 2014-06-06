@@ -25,7 +25,10 @@
 {
     self.plotInfo.backgroundColor = [SYBData mainData].colors[self.colorNumber];
     
+//    self.button = [[UIButton alloc]initWithFrame:self.frame];
+    
     [self addSubview:self.plotInfo];
+//    [self addSubview:self.button];
 }
 
 - (void)awakeFromNib
