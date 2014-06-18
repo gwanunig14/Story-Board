@@ -90,24 +90,25 @@
     }
     
     cell.plotInfo = plotPoints[indexPath.row];
-    cell.colorNumber = [bulletPoints[indexPath.row][@"character"] intValue];
+    
+    NSString * character = bulletPoints[indexPath.row][@"character"];
+    cell.color = [SYBData mainData].characters[character];
     
     [cell makeCell];
     
-    cellButton = [[UIButton alloc]initWithFrame:cell.frame];
+    cellButton = [[UIButton alloc]initWithFrame:cell.plotInfo.frame];
     [cellButton addTarget:self action:@selector(cellClick:) forControlEvents:UIControlEventTouchUpInside];
     cellButton.tag = indexPath.row;
     
-    [self.tableView addSubview:cellButton];
-    
-    // Configure the cell...
-    
+    [cell addSubview:cellButton];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 70, 0)];
+    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 50, 0)];
     
     plotPoint.text = bulletPoints[indexPath.row][@"plotpoint"];
     
@@ -117,7 +118,7 @@
     
     frame.size.height = plotPoint.contentSize.height + 20;
     
-    plotPoint.frame = CGRectMake(10, 10, frame.size.width, frame.size.height - 20);
+    plotPoint.frame = CGRectMake(40, 10, frame.size.width-40, frame.size.height - 20);
     
     plotPoint.editable = NO;
     
@@ -131,12 +132,15 @@
     UITextView * editText = plotPoints[sender.tag];
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
     
+    plotWindow.chapterAssignment = [SYBData mainData].selectedChapter;
+    plotWindow.characterAssignment = bulletPoints[sender.tag][@"character"];
+    NSLog(@"%@", bulletPoints[sender.tag]);
+    
     [self.navigationController presentViewController:nc animated:YES completion:^{
-        plotWindow.chapterAssignment = [SYBData mainData].selectedChapter;
-        plotWindow.characterAssignment = [bulletPoints[sender.tag][@"character"] intValue];
         plotWindow.storyThought.text = editText.text;
         plotWindow.editNumber = (int)sender.tag;
         [plotWindow buttonLabels];
+        [cell removeFromSuperview];
     }];
 }
 
@@ -145,6 +149,7 @@
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
     [self.navigationController presentViewController:nc animated:YES completion:^{
         [plotWindow buttonLabels];
+        [cell removeFromSuperview];
     }];
 }
 

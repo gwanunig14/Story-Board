@@ -12,7 +12,7 @@
 
 @property (nonatomic) UITextView * plotInfo;
 
-@property (nonatomic) NSInteger colorNumber;
+@property (nonatomic) UIColor * color;
 
 @property (nonatomic) UIButton * button;
 

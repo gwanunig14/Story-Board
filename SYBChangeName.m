@@ -8,6 +8,7 @@
 
 #import "SYBChangeName.h"
 #import "SYBChapterView.h"
+#import "SYBColorChange.h"
 #import "SYBNavigator.h"
 #import "SYBData.h"
 
@@ -41,6 +42,8 @@
     h = self.view.frame.size.height;
     w = self.view.frame.size.width;
     
+    NSLog(@"index %i",self.index);
+    
     projectName = [[UITextField alloc]initWithFrame:CGRectMake(20, h/4, w-40, 40)];
     projectName.backgroundColor=[UIColor blueColor];
     projectName.placeholder = self.oldTitle;
@@ -50,6 +53,13 @@
     createProject.backgroundColor = [UIColor redColor];
     [createProject addTarget:self action:@selector(editProject) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:createProject];
+    
+    if (self.function == 3) {
+        UIButton * cColor = [[UIButton alloc]initWithFrame:CGRectMake(20, h-100, w-40, 40)];
+        cColor.backgroundColor = [SYBData mainData].characters[self.oldTitle];
+        [cColor addTarget:self action:@selector(colorChange) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:cColor];
+    }
 }
 
 -(void)editProject
@@ -80,6 +90,17 @@
     [self.navigationController presentViewController:nc animated:YES completion:^{
         [self.view removeFromSuperview];
     }];
+}
+
+-(void)colorChange
+{
+//    NSLog(@"old %i",[[SYBData mainData].characters[self.oldTitle] intValue]);
+    SYBColorChange * colors = [[SYBColorChange alloc]initWithCollectionViewLayout:[[UICollectionViewFlowLayout alloc]init]];
+    
+    colors.character = self.oldTitle;
+//    colors.oldColor = [[SYBData mainData].characters[self.oldTitle] intValue];
+    
+    [self.navigationController pushViewController:colors animated:YES];
 }
 
 @end

@@ -136,7 +136,7 @@
 
 -(void)addNewCharacter:(NSString *)character withNumber:(NSInteger)number
 {
-    [self.characters setObject:@(number) forKey:character];
+    [self.characters setObject:self.colors[number] forKey:character];
     
     [self saveData];
 }

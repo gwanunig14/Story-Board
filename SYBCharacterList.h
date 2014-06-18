@@ -10,4 +10,6 @@
 
 @interface SYBCharacterList : UITableViewController
 
+@property int editOrNot;
+
 @end

@@ -23,7 +23,7 @@
 
 -(void)makeCell
 {
-    self.plotInfo.backgroundColor = [SYBData mainData].colors[self.colorNumber];
+    self.plotInfo.backgroundColor = self.color;
     
 //    self.button = [[UIButton alloc]initWithFrame:self.frame];
     

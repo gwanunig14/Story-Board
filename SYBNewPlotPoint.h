@@ -16,7 +16,7 @@
 
 @property (nonatomic) int editNumber;
 
-@property (nonatomic) NSInteger characterAssignment;
+@property (nonatomic) NSString * characterAssignment;
 
 @property (nonatomic) NSInteger chapterAssignment;
 

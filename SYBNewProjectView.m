@@ -58,6 +58,7 @@
     
     NSDictionary * project = @{@"characters":[@{}mutableCopy],
                                @"projectInfo":[@[]mutableCopy]};
+    NSLog(@"%lu",(unsigned long)[[SYBData mainData].allProjects count]);
     
     [SYBData mainData].selectedProject = (int)[[SYBData mainData].allProjects count];
     

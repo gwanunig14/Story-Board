@@ -20,6 +20,8 @@
     
     NSInteger button;
     
+    UITextView * warning;
+    
     UIView * addNewBackground;
     UITextField * newItemName;
     UIButton * addItemButton;
@@ -105,7 +107,6 @@
     [addPlotPoint addTarget:self action:@selector(addNewPlotPoint) forControlEvents:UIControlEventTouchUpInside];
     [addPlotPoint setTitle:@"Add To Story" forState:UIControlStateNormal];
     [self.view addSubview:addPlotPoint];
-    
 }
 
 -(void)buttonLabels
@@ -120,19 +121,20 @@
     if (self.chapterAssignment > 0)
     {
         [selectChapter setTitle:[NSString stringWithFormat:@"%@",[SYBData mainData].chapters[self.chapterAssignment][@"heading"]] forState:UIControlStateNormal];
+        selectChapter.tag = self.chapterAssignment;
     }
     
     if ([[SYBData mainData].characters count] != 0)
     {
-        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:0]] forState:UIControlStateNormal];
+        if (self.characterAssignment) {
+            NSLog(@"2");
+            [selectCharacter setTitle:self.characterAssignment forState:UIControlStateNormal];
+        }
+ 
     }else{
         [selectCharacter setTitle:@"character" forState:UIControlStateNormal];
     }
     
-    if (self.characterAssignment > 0)
-    {
-        [selectCharacter setTitle:[NSString stringWithFormat:@"%@", [[[SYBData mainData].characters allKeys] objectAtIndex:self.characterAssignment]] forState:UIControlStateNormal];
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -174,30 +176,26 @@
 
 -(void)addNewPlotPoint
 {
-    NSLog(@"edit %ld",(long)self.editNumber);
-    NSLog(@"count %@",[SYBData mainData].chapters);
-    
     if ([self.storyThought.text length] > 0)
     {
-        NSDictionary * plotPoint = @{@"plotpoint":self.storyThought.text,
-                                     @"character":@(self.characterAssignment)};
+        NSMutableDictionary * plotPoint = [@{@"plotpoint":self.storyThought.text,
+                                             @"character":selectCharacter.titleLabel.text}mutableCopy];
         
         if (self.editNumber < 0) {
             [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }else{
+            
             [[SYBData mainData].chapters[self.chapterAssignment][@"info"] removeObjectAtIndex:self.editNumber];
-            NSLog(@"1");
-//            if (self.editNumber != [[SYBData mainData].chapters[self.chapterAssignment][@"info"] count])
-//            {
-//                NSLog(@"1");
-//                [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
-//            }
-            NSLog(@"1");
+            if (self.editNumber != [[SYBData mainData].chapters[self.chapterAssignment][@"info"] count])
+            {
+                [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
+            }
             [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }
     }
         
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [self.storyThought removeFromSuperview];
         
     }];
 }
@@ -227,15 +225,21 @@
         {
             [selectChapter setTitle:newItemName.text forState:UIControlStateNormal];
             newItem = [@{@"heading":newItemName.text,
-                        @"info":[@[]mutableCopy]} mutableCopy];
+                         @"info":[@[]mutableCopy]} mutableCopy];
             [[SYBData mainData] addNewChapter:newItem];
             self.chapterAssignment = [[SYBData mainData].chapters count] - 1;
             
         }else
         {
-            [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
-            [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
-            self.characterAssignment = [[SYBData mainData].characters count];
+            if ([[SYBData mainData].characters count] == [[SYBData mainData].colors count])
+            {
+                warning = [[UITextView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 60)];
+                warning.text = @"You have too many characters. \n There are no more colors to be assigned";
+                [self.view addSubview:warning];
+            }else{
+                [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
+                [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
+            }
         }
     }
     
@@ -248,6 +252,7 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [listPick removeFromSuperview];
+    [warning removeFromSuperview];
     [self.storyThought resignFirstResponder];
 }
 
@@ -261,9 +266,12 @@
 {
     [chosen setTitle:[NSString stringWithFormat:@"%@",scrollArray[row]] forState:UIControlStateNormal];
     
+    if (chosen == selectChapter)
+    {
     chosen.tag = row;
+    }
+    
     self.chapterAssignment = selectChapter.tag;
-    self.characterAssignment = selectCharacter.tag;
     
     [pickerView removeFromSuperview];
 }

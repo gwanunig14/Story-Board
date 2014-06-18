@@ -10,16 +10,22 @@
 
 #import "SYBProjectList.h"
 
+#import <Crashlytics/Crashlytics.h>
+
 @implementation SYBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     SYBProjectList * root = [[SYBProjectList alloc]init];
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:root];
+    [Crashlytics startWithAPIKey:@"0b342c16f87feb56208e53b7a2f0b39bc9cdc147"];
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = nc;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+//    [[Crashlytics sharedInstance] crash];
     return YES;
 }
 

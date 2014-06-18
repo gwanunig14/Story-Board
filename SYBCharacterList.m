@@ -8,6 +8,7 @@
 
 #import "SYBCharacterList.h"
 #import "SYBChangeName.h"
+#import "SYBAllCharacter.h"
 #import "SYBData.h"
 
 @interface SYBCharacterList ()
@@ -65,6 +66,10 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
+    NSString * character = [[SYBData mainData].characters allKeys][indexPath.row];
+    NSLog(@"%@",[[SYBData mainData].characters allKeys][indexPath.row]);
+    cell.backgroundColor = [SYBData mainData].characters[character];
+    
     [cell addSubview:characterName];
     
     return cell;
@@ -72,11 +77,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SYBChangeName * newName = [[SYBChangeName alloc]init];
-    newName.function = 3;
-    newName.index = (int)indexPath.row;
-    newName.oldTitle = [allCharacters allKeys][indexPath.row];
-    [self.navigationController pushViewController:newName animated:YES];
+    if (self.editOrNot == 1) {
+        SYBChangeName * newName = [[SYBChangeName alloc]init];
+        newName.function = 3;
+//        newName.index = [[[SYBData mainData].characters allValues][indexPath.row] intValue];
+        newName.oldTitle = [allCharacters allKeys][indexPath.row];
+        [self.navigationController pushViewController:newName animated:YES];
+    } else {
+        SYBAllCharacter * viewAC = [[SYBAllCharacter alloc]init];
+        NSLog(@"newest %@",[allCharacters allValues]);
+//        viewAC.character = [[allCharacters allValues][indexPath.row] intValue];
+        [self.navigationController pushViewController:viewAC animated:YES];
+    }
 }
 
 /*

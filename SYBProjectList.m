@@ -30,8 +30,6 @@
     if (self) {
         data = [[SYBData alloc]init];
         self.view.backgroundColor = [UIColor greenColor];
-
-        
     }
     return self;
 }
@@ -40,10 +38,6 @@
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
     UIBarButtonItem * addNew = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newProject)];
@@ -116,10 +110,12 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[SYBData mainData].allProjects removeObjectForKey:[NSNumber numberWithInteger:indexPath.row]];
-    
+    NSLog(@"1");
+    NSString * killIt =[[SYBData mainData].allProjects allKeys][indexPath.row];
+    [[SYBData mainData].allProjects removeObjectForKey:killIt];
+    NSLog(@"1");
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    
+    NSLog(@"3");
     [[SYBData mainData] saveData];
 }
 
@@ -128,32 +124,5 @@
     new = [[SYBNewProjectView alloc]init];
     [self.navigationController pushViewController:new animated:YES];
 }
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
