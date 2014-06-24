@@ -10,6 +10,8 @@
 
 #import "SYBChangeName.h"
 
+#import "SYBInfoCell.h"
+
 #import "SYBData.h"
 
 @interface SYBChapterList ()
@@ -19,6 +21,7 @@
 @implementation SYBChapterList
 {
     NSArray * allChapters;
+    SYBInfoCell * cell;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -26,7 +29,24 @@
     self = [super initWithStyle:style];
     if (self)
     {
+        NSLog(@"1");
         allChapters = [SYBData mainData].currentProject[@"projectInfo"];
+        NSLog(@"1");
+        UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        NSLog(@"1");
+        background.image = [UIImage imageNamed:@"background"];
+        NSLog(@"1");
+        [self.view insertSubview:background atIndex:0];
+        
+        self.tableView.rowHeight = 78;
+        self.tableView.separatorColor = [UIColor clearColor];
+        [self.view insertSubview:background atIndex:0];
+        
+        UISwipeGestureRecognizer * rSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismissed)];
+        rSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rSwipe];
+        
+        [self.navigationItem setHidesBackButton:YES animated:YES];
     }
     return self;
 }
@@ -36,9 +56,13 @@
     [super viewDidLoad];
     
     UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2) - 100, 2, 200, 40)];
+    NSLog(@"1");
     title.text = [SYBData mainData].currentTitle;
+    NSLog(@"1");
     title.textAlignment = NSTextAlignmentCenter;
-    title.adjustsFontSizeToFitWidth = YES;
+    NSLog(@"1");
+//    title.adjustsFontSizeToFitWidth = YES;
+    NSLog(@"1");
     [self.navigationController.navigationBar addSubview:title];
 }
 
@@ -55,18 +79,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    UILabel * chapterName = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -12, 20)];
-    
-    chapterName.text = allChapters[indexPath.row][@"heading"];
+    cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[SYBInfoCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    [cell addSubview:chapterName];
+    cell.plotInfo.text = allChapters[indexPath.row][@"heading"];
+    
+    cell.color = TEXTBOX_COLOR;
+    cell.background.backgroundColor = TEXTBOX_COLOR;
+    
+    [cell makeCell];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -80,53 +109,15 @@
     [self.navigationController pushViewController:newName animated:YES];
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
+-(void)dismissed
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

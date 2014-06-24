@@ -7,7 +7,7 @@
 //
 
 #import "SYBAppDelegate.h"
-
+#import "SYBNav.h"
 #import "SYBProjectList.h"
 
 #import <Crashlytics/Crashlytics.h>
@@ -17,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     SYBProjectList * root = [[SYBProjectList alloc]init];
-    UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:root];
+    SYBNav * nc = [[SYBNav alloc]initWithRootViewController:root];
     [Crashlytics startWithAPIKey:@"0b342c16f87feb56208e53b7a2f0b39bc9cdc147"];
     
     

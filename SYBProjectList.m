@@ -9,7 +9,8 @@
 #import "SYBProjectList.h"
 #import "SYBNewProjectView.h"
 #import "SYBChapterView.h"
-#import "SYBNavigator.h"
+#import "SYBInfoCell.h"
+#import "SYBNav.h"
 #import "SYBData.h"
 
 @interface SYBProjectList ()
@@ -20,8 +21,9 @@
 {
     SYBChapterView * chapters;
     SYBNewProjectView * new;
+    SYBInfoCell * cell;
     SYBData * data;
-    UINavigationController * nc;
+    SYBNav * nc;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -29,7 +31,14 @@
     self = [super initWithStyle:style];
     if (self) {
         data = [[SYBData alloc]init];
-        self.view.backgroundColor = [UIColor greenColor];
+        UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        background.image = [UIImage imageNamed:@"background"];
+        [self.view insertSubview:background atIndex:0];
+        self.navigationItem.leftBarButtonItem.tintColor = BACKGROUND_COLOR;
+        self.navigationItem.rightBarButtonItem.tintColor = BACKGROUND_COLOR;
+        self.tableView.rowHeight = 78;
+        self.tableView.separatorColor = [UIColor clearColor];
+    
     }
     return self;
 }
@@ -40,7 +49,11 @@
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
-    UIBarButtonItem * addNew = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newProject)];
+    UIButton * addNewI = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [addNewI setImage:[UIImage imageNamed:@"plus"] forState:UIControlStateNormal];
+    [addNewI addTarget:self action:@selector(newProject) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem * addNew = [[UIBarButtonItem alloc]initWithCustomView:addNewI];
     self.navigationItem.rightBarButtonItem = addNew;
     
     
@@ -73,27 +86,38 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    UILabel * projectName = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, self.view.frame.size.width -12, 20)];
-    projectName.textAlignment = NSTextAlignmentCenter;
+    UILabel * projectName = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 200, 20)];
+    UIView * back = [[UIView alloc]initWithFrame:CGRectMake(-10, 12, 275, projectName.frame.size.height+34)];
+    back.layer.cornerRadius = 5;
+    back.backgroundColor = TEXTBOX_COLOR;
+    projectName.backgroundColor = TEXTBOX_COLOR;
+//    projectName.textAlignment = NSTextAlignmentCenter;
     projectName.text = [[SYBData mainData].allProjects allKeys][indexPath.row];
+    projectName.textColor = BACKGROUND_COLOR;
     
-    if (cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    if (cell == nil) cell = [[SYBInfoCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    [back addSubview:projectName];
+    [cell addSubview:back];
+    cell.height = back.frame.size.height;
+    cell.color = TEXTBOX_COLOR;
     
-    [cell addSubview:projectName];
+    [cell makeCell];
+    
+    cell.backgroundColor =[UIColor clearColor];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [SYBData mainData].selectedProject = (int)indexPath.row;
-    
+    [SYBData mainData].selectedProject = [[SYBData mainData].allProjects allKeys][indexPath.row];
     chapters = [[SYBChapterView alloc]init];
-
-    nc = [[UINavigationController alloc]initWithRootViewController:chapters];
-
+    nc = [[SYBNav alloc]initWithRootViewController:chapters];
+    [nc titleWithText:[SYBData mainData].selectedProject];
     [self.navigationController presentViewController:nc animated:YES completion:^{
         [self.view removeFromSuperview];
     }];
@@ -110,12 +134,9 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"1");
     NSString * killIt =[[SYBData mainData].allProjects allKeys][indexPath.row];
     [[SYBData mainData].allProjects removeObjectForKey:killIt];
-    NSLog(@"1");
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    NSLog(@"3");
     [[SYBData mainData] saveData];
 }
 
@@ -123,6 +144,11 @@
 {
     new = [[SYBNewProjectView alloc]init];
     [self.navigationController pushViewController:new animated:YES];
+}
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 @end

@@ -10,6 +10,6 @@
 
 @interface SYBAllCharacter : UITableViewController
 
-@property (nonatomic) int character;
+@property (nonatomic) NSString * character;
 
 @end

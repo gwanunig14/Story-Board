@@ -35,7 +35,7 @@
 
 
 @property (nonatomic) NSMutableDictionary * projects;
-@property (nonatomic) NSInteger selectedProject;
+@property (nonatomic) NSString * selectedProject;
 @property (nonatomic) NSInteger selectedChapter;
 
 @property (nonatomic) NSArray * colors;

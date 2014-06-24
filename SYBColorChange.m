@@ -25,11 +25,15 @@
     {
         cells = [@[]mutableCopy];
         
+        self.collectionView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"background"]];
+        
         [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
         
         self.collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
         
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        self.view.backgroundColor = [UIColor clearColor];
+        
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     }
     return self;
 }
@@ -49,9 +53,10 @@
     UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
     cell.backgroundColor = [SYBData mainData].colors[indexPath.row];
+    
+//    cell.
 
     [cells addObject:cell];
-    NSLog(@"%@",cells);
 
     return cell;
 }
@@ -62,7 +67,6 @@
     UIColor * color = cell.backgroundColor;
     [[SYBData mainData].characters setObject:color forKey:self.character];
 
-    NSLog(@"%@",[SYBData mainData].currentProject);
     [[SYBData mainData] saveData];
     
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -79,5 +83,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 
 @end

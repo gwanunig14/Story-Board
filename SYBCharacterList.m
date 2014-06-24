@@ -9,6 +9,7 @@
 #import "SYBCharacterList.h"
 #import "SYBChangeName.h"
 #import "SYBAllCharacter.h"
+#import "SYBInfoCell.h"
 #import "SYBData.h"
 
 @interface SYBCharacterList ()
@@ -18,6 +19,7 @@
 @implementation SYBCharacterList
 {
     NSDictionary * allCharacters;
+    SYBInfoCell * cell;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -26,6 +28,17 @@
     if (self)
     {
         allCharacters = [SYBData mainData].currentProject[@"characters"];
+        UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        background.image = [UIImage imageNamed:@"background"];
+        self.tableView.rowHeight = 78;
+        self.tableView.separatorColor = [UIColor clearColor];
+        [self.view insertSubview:background atIndex:0];
+        
+        UISwipeGestureRecognizer * rSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismissed)];
+        rSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rSwipe];
+        
+        [self.navigationItem setHidesBackButton:YES animated:YES];
     }
     return self;
 }
@@ -55,22 +68,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    UILabel * characterName = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -12, 20)];
-    
-    characterName.text = [[SYBData mainData].characters allKeys][indexPath.row];
+    cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[SYBInfoCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    NSString * character = [[SYBData mainData].characters allKeys][indexPath.row];
-    NSLog(@"%@",[[SYBData mainData].characters allKeys][indexPath.row]);
-    cell.backgroundColor = [SYBData mainData].characters[character];
+    cell.plotInfo.text = [[SYBData mainData].characters allKeys][indexPath.row];;
     
-    [cell addSubview:characterName];
+    NSString * character = [[SYBData mainData].characters allKeys][indexPath.row];
+    cell.color = [SYBData mainData].characters[character];
+    cell.background.backgroundColor = TEXTBOX_COLOR;
+    
+    [cell makeCell];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -80,64 +95,24 @@
     if (self.editOrNot == 1) {
         SYBChangeName * newName = [[SYBChangeName alloc]init];
         newName.function = 3;
-//        newName.index = [[[SYBData mainData].characters allValues][indexPath.row] intValue];
         newName.oldTitle = [allCharacters allKeys][indexPath.row];
         [self.navigationController pushViewController:newName animated:YES];
     } else {
         SYBAllCharacter * viewAC = [[SYBAllCharacter alloc]init];
-        NSLog(@"newest %@",[allCharacters allValues]);
-//        viewAC.character = [[allCharacters allValues][indexPath.row] intValue];
+        viewAC.character = [allCharacters allKeys][indexPath.row];
         [self.navigationController pushViewController:viewAC animated:YES];
     }
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)dismissed
 {
-    // Return NO if you do not want the specified item to be editable.
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(BOOL)prefersStatusBarHidden
+{
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

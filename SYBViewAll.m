@@ -27,10 +27,21 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        NSLog(@"chapters %@",[SYBData mainData].chapters);
+        UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        background.image = [UIImage imageNamed:@"background"];
+        self.tableView.backgroundView = background;
+        
         plotPoints = [@[]mutableCopy];
         allPoints = [@{}mutableCopy];
         marker = 0;
+        
+        self.tableView.separatorColor = [UIColor clearColor];
+        
+        UISwipeGestureRecognizer * rSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismissed)];
+        rSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rSwipe];
+        
+        [self.navigationItem setHidesBackButton:YES animated:YES];
         // Custom initialization
     }
     return self;
@@ -62,12 +73,9 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSLog(@"1");
-    
     NSMutableArray * current = [@[]mutableCopy];
     [current addObject:plotPoints];
 //    [allPoints insertObject:current atIndex:0];
-//    NSLog(@"here we go %@",allPoints);
     chapterPoints = [SYBData mainData].chapters[section][@"info"];
     NSString * heading = [SYBData mainData].chapters[section][@"heading"];
     return heading;
@@ -80,21 +88,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"a");
     SYBInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    NSLog(@"b");
+    
     if (cell == nil)
     {
         cell = [[SYBInfoCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    NSLog(@"c");
+    NSLog(@"%@",allPoints[[NSString stringWithFormat:@"%ld",(long)indexPath.section]][indexPath.row]);
     
-    cell.plotInfo = allPoints[[NSString stringWithFormat:@"%ld",(long)indexPath.section]][indexPath.row];
+//    cell.complete = allPoints[[NSString stringWithFormat:@"%ld",(long)indexPath.section]][indexPath.row];
+    cell.complete.backgroundColor = TEXTBOX_COLOR;
+    
+    UITextView * standin = allPoints[[NSString stringWithFormat:@"%ld",(long)indexPath.section]][indexPath.row];
+    cell.complete.text = standin.text;
+    cell.complete.layer.cornerRadius = 5;
+    cell.height = standin.frame.size.height;
     NSString * character = [SYBData mainData].chapters[indexPath.section][@"info"][indexPath.row][@"character"];
     cell.color = [SYBData mainData].characters[character];
+    cell.background.backgroundColor = TEXTBOX_COLOR;
     
-    NSLog(@"%@",[SYBData mainData].chapters[indexPath.section][@"info"][indexPath.row][@"character"]);
     [cell makeCell];
+    [cell fullview];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     // Configure the cell...
     
@@ -103,38 +118,39 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"2");
     if (allPoints[[NSString stringWithFormat:@"%ld",(long)indexPath.section]] == 0)
     {
         allPoints[[NSString stringWithFormat:@"%d",(int)indexPath.section]] = [@[]mutableCopy];
     }
-    NSLog(@"3");
-    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 70, 0)];
-    NSLog(@"4");
+
+    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, 265, 0)];
+    plotPoint.layer.cornerRadius = 5;
     plotPoint.text = [SYBData mainData].chapters[indexPath.section][@"info"][indexPath.row][@"plotpoint"];
-    NSLog(@"5");
-//    plotPoint.tag = [[SYBData mainData].chapters[indexPath.section][@"info"][indexPath.row][@"character"] intValue];
-    NSLog(@"6");
     [plotPoint layoutIfNeeded];
-    NSLog(@"7");
+    
     CGRect frame = plotPoint.frame;
-    NSLog(@"8");
     frame.size.height = plotPoint.contentSize.height + 20;
-    NSLog(@"9");
+    
     plotPoint.frame = CGRectMake(10, 10, frame.size.width, frame.size.height - 20);
-    NSLog(@"10");
     plotPoint.editable = NO;
-    NSLog(@"11");
-//    cell.plotInfo = plotPoints[indexPath.section][indexPath.row];
+    plotPoint.backgroundColor = TEXTBOX_COLOR;
     [allPoints[[NSString stringWithFormat:@"%ld",(long)indexPath.section]] addObject:plotPoint];
-    NSLog(@"%@",allPoints);
     
 //    [allPoints addObject:plotPoints];
-//    NSLog(@"Plot %@",allPoints);
     
 //    [plotPoints insertObject:plotPoint atIndex:indexPath.row];
     
-    return frame.size.height;
+    return frame.size.height + 20;
+}
+
+-(void)dismissed
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 

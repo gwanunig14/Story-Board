@@ -10,12 +10,20 @@
 
 @interface SYBInfoCell : UITableViewCell
 
-@property (nonatomic) UITextView * plotInfo;
+@property (nonatomic) UITextField * plotInfo;
+
+@property (nonatomic) UITextView * complete;
+
+@property (nonatomic) UIView * background;
 
 @property (nonatomic) UIColor * color;
 
-@property (nonatomic) UIButton * button;
+@property (nonatomic) UIView * sideTab;
+
+@property (nonatomic) int height;
 
 -(void)makeCell;
+
+-(void)fullview;
 
 @end

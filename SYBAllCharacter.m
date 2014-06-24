@@ -41,20 +41,31 @@
     
     for (NSDictionary * one in [SYBData mainData].currentProject[@"projectInfo"])
     {
-        NSLog(@"change 1 %@",one);
+        NSLog(@"change 1 %@",[SYBData mainData].currentProject[@"projectInfo"]);
         for (NSMutableDictionary * two in one[@"info"])
         {
-            NSLog(@"change 2 %@",two);
-//            int change = [[two objectForKey:@"character"] intValue];
-//            NSLog(@"change 3 %i",change);
-//            if (change == self.character)
-//            {
-//                NSLog(@"change 4 %@",two[@"character"]);
-//                [chapterPoints addObject:two];
-//                NSLog(@"change 5 %@",two);
-//            };
+            NSString * name = [two objectForKey:@"character"];
+            NSLog(@"change 2 %@",name);
+            NSLog(@"change 3 %@",self.character);
+            if ([name isEqualToString:self.character])
+            {
+                [chapterPoints addObject:two];
+                NSLog(@"change 4 %@",chapterPoints);
+            };
         };
     };
+    
+    UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    background.image = [UIImage imageNamed:@"background"];
+    self.tableView.backgroundView = background;
+    
+    self.tableView.separatorColor = [UIColor clearColor];
+    
+    UISwipeGestureRecognizer * rSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismissed)];
+    rSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:rSwipe];
+    
+    [self.navigationItem setHidesBackButton:YES animated:YES];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -79,99 +90,66 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"a");
     SYBInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    NSLog(@"b");
+    
     if (cell == nil)
     {
         cell = [[SYBInfoCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    NSLog(@"c");
-    cell.plotInfo = plotPoints[indexPath.row];
-    NSLog(@"%@",plotPoints);
+    
+    //    cell.complete = allPoints[[NSString stringWithFormat:@"%ld",(long)indexPath.section]][indexPath.row];
+    cell.complete.backgroundColor = TEXTBOX_COLOR;
+    
+    UITextView * standin = plotPoints[indexPath.row];
+    cell.complete.text = standin.text;
+    cell.complete.layer.cornerRadius = 5;
+    cell.height = standin.frame.size.height-20;
+    NSLog(@"cell %f",standin.frame.size.height);
     NSString * character = chapterPoints[indexPath.row][@"character"];
     cell.color = [SYBData mainData].characters[character];
-//    cell.colorNumber = cell.plotInfo.tag;
-    NSLog(@"e");
-    [cell makeCell];
+    cell.background.backgroundColor = TEXTBOX_COLOR;
     
-    // Configure the cell...
+    cell.backgroundColor = [UIColor clearColor];
+    
+    [cell makeCell];
+    [cell fullview];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 70, 0)];
+    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, SCREEN_WIDTH - 45, 0)];
     
+    plotPoint = [[UITextView alloc] initWithFrame: CGRectMake(10, 10, 265, 0)];
+    plotPoint.layer.cornerRadius = 5;
     plotPoint.text = chapterPoints[indexPath.row][@"plotpoint"];
-    
-//    plotPoint.tag = [chapterPoints[indexPath.row][@"character"] integerValue];
-
     [plotPoint layoutIfNeeded];
     
     CGRect frame = plotPoint.frame;
-    
     frame.size.height = plotPoint.contentSize.height + 20;
     
     plotPoint.frame = CGRectMake(10, 10, frame.size.width, frame.size.height - 20);
-    
     plotPoint.editable = NO;
+    plotPoint.backgroundColor = TEXTBOX_COLOR;
     
     [plotPoints addObject:plotPoint];
     
-    NSLog(@"Plot %@",plotPoint);
+    NSLog(@"frame %f",frame.size.height);
     
     return frame.size.height;
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
+-(void)dismissed
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

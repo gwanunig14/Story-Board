@@ -33,6 +33,12 @@
 		9CE4F404192D1D3500A32881 /* SYBChapterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F403192D1D3500A32881 /* SYBChapterView.m */; };
 		9CE4F48F1934C43E00A32881 /* SYBChapterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F48E1934C43E00A32881 /* SYBChapterInfo.m */; };
 		9CE4F4921934C73F00A32881 /* SYBNewPlotPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4F4911934C73F00A32881 /* SYBNewPlotPoint.m */; };
+		9CF5E59019532EF00089DF8A /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CF5E58C19532EF00089DF8A /* info.png */; };
+		9CF5E59119532EF00089DF8A /* plus_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CF5E58D19532EF00089DF8A /* plus_dark.png */; };
+		9CF5E59219532EF00089DF8A /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CF5E58E19532EF00089DF8A /* plus.png */; };
+		9CF5E59319532EF00089DF8A /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CF5E58F19532EF00089DF8A /* settings.png */; };
+		9CF5E59B195342090089DF8A /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CF5E59A195342090089DF8A /* background.png */; };
+		9CF5E5A019534C230089DF8A /* SYBNav.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5E59F19534C230089DF8A /* SYBNav.m */; };
 		9CFF4D3E192694AC00FED5E3 /* SYBNewProjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFF4D3D192694AC00FED5E3 /* SYBNewProjectView.m */; };
 		9CFF4D421926952000FED5E3 /* SYBData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFF4D411926952000FED5E3 /* SYBData.m */; };
 /* End PBXBuildFile section */
@@ -91,6 +97,13 @@
 		9CE4F48E1934C43E00A32881 /* SYBChapterInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBChapterInfo.m; sourceTree = "<group>"; };
 		9CE4F4901934C73F00A32881 /* SYBNewPlotPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBNewPlotPoint.h; sourceTree = "<group>"; };
 		9CE4F4911934C73F00A32881 /* SYBNewPlotPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBNewPlotPoint.m; sourceTree = "<group>"; };
+		9CF5E58C19532EF00089DF8A /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		9CF5E58D19532EF00089DF8A /* plus_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus_dark.png; sourceTree = "<group>"; };
+		9CF5E58E19532EF00089DF8A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		9CF5E58F19532EF00089DF8A /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		9CF5E59A195342090089DF8A /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		9CF5E59E19534C230089DF8A /* SYBNav.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBNav.h; sourceTree = "<group>"; };
+		9CF5E59F19534C230089DF8A /* SYBNav.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBNav.m; sourceTree = "<group>"; };
 		9CFF4D3C192694AC00FED5E3 /* SYBNewProjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBNewProjectView.h; sourceTree = "<group>"; };
 		9CFF4D3D192694AC00FED5E3 /* SYBNewProjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBNewProjectView.m; sourceTree = "<group>"; };
 		9CFF4D401926952000FED5E3 /* SYBData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBData.h; sourceTree = "<group>"; };
@@ -140,6 +153,8 @@
 		9C723C071925275400B151FB = {
 			isa = PBXGroup;
 			children = (
+				9CF5E59E19534C230089DF8A /* SYBNav.h */,
+				9CF5E59F19534C230089DF8A /* SYBNav.m */,
 				9C96166A193BA73A00750183 /* SYBSettingsMenu.h */,
 				9C96166B193BA73A00750183 /* SYBSettingsMenu.m */,
 				9CE4F402192D1D3500A32881 /* SYBChapterView.h */,
@@ -157,6 +172,11 @@
 				9C723C321925275400B151FB /* Story BoardTests */,
 				9C723C121925275400B151FB /* Frameworks */,
 				9C723C111925275400B151FB /* Products */,
+				9CF5E58C19532EF00089DF8A /* info.png */,
+				9CF5E58D19532EF00089DF8A /* plus_dark.png */,
+				9CF5E58E19532EF00089DF8A /* plus.png */,
+				9CF5E58F19532EF00089DF8A /* settings.png */,
+				9CF5E59A195342090089DF8A /* background.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -343,8 +363,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CF5E59319532EF00089DF8A /* settings.png in Resources */,
 				9C723C1E1925275400B151FB /* InfoPlist.strings in Resources */,
+				9CF5E59B195342090089DF8A /* background.png in Resources */,
+				9CF5E59219532EF00089DF8A /* plus.png in Resources */,
+				9CF5E59119532EF00089DF8A /* plus_dark.png in Resources */,
 				9C723C261925275400B151FB /* Images.xcassets in Resources */,
+				9CF5E59019532EF00089DF8A /* info.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +418,7 @@
 				9C46B3A9193FC52900DB016F /* SYBInfoCell.m in Sources */,
 				9C723C241925275400B151FB /* SYBAppDelegate.m in Sources */,
 				9C46B3A0193F89BA00DB016F /* SYBChapterList.m in Sources */,
+				9CF5E5A019534C230089DF8A /* SYBNav.m in Sources */,
 				9CE4F4921934C73F00A32881 /* SYBNewPlotPoint.m in Sources */,
 				9C8D822D194B443500E98795 /* SYBColorChange.m in Sources */,
 				9C9FC9671927AFEA005ECDB5 /* SYBProjectList.m in Sources */,

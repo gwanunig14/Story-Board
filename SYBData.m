@@ -107,8 +107,6 @@
 
 -(void)addNewProject:(NSDictionary *)project atKey:(NSString *)key
 {
-    NSLog(@"1");
-    
     [self.projects setObject:project forKey:key];
     
     [self saveData];
@@ -121,12 +119,12 @@
 
 -(NSString *)currentTitle
 {
-    return [self.projects allKeys][self.selectedProject];
+    return self.projects[self.selectedProject];
 }
 
 -(NSDictionary *)currentProject
 {
-    return [self.projects allValues][self.selectedProject];
+    return self.projects[self.selectedProject];
 }
 
 -(NSDictionary *)currentChapter

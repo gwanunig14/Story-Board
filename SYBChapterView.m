@@ -20,6 +20,8 @@
 
 #import "SYBSettingsMenu.h"
 
+#import "SYBInfoCell.h"
+
 @interface SYBChapterView () <SYBSettingsDelegate>
 
 @end
@@ -31,6 +33,8 @@
     int X;
     
     int mover;
+    
+    SYBInfoCell * cell;
     
     SYBNewProjectView * new;
     
@@ -52,6 +56,13 @@
         new = [[SYBNewProjectView alloc]init];
         
         allChapters = [SYBData mainData].currentProject[@"projectInfo"];
+        
+        UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        background.image = [UIImage imageNamed:@"background"];
+        [self.view insertSubview:background atIndex:0];
+        
+        self.tableView.rowHeight = 78;
+        self.tableView.separatorColor = [UIColor clearColor];
     }
     return self;
 }
@@ -60,21 +71,16 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem * createNewPlotPoint = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newPlotWindow)];
+    UIButton * plot = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [plot setImage:[UIImage imageNamed:@"plus"] forState:UIControlStateNormal];
+    [plot addTarget:self action:@selector(newPlotWindow) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * createNewPlotPoint = [[UIBarButtonItem alloc]initWithCustomView:plot];
     createNewPlotPoint.tintColor = [UIColor blueColor];
     self.navigationItem.rightBarButtonItem = createNewPlotPoint;
-    
-    UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2) - 100, 2, 200, 40)];
-    title.text = [SYBData mainData].currentTitle;
-    title.textAlignment = NSTextAlignmentCenter;
-    title.adjustsFontSizeToFitWidth = YES;
-    [self.navigationController.navigationBar addSubview:title];
+    self.editButtonItem.tintColor = BACKGROUND_COLOR;
     
     settingsButtonView = [[SYBSettingsButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [settingsButtonView addTarget:self action:@selector(openSettings) forControlEvents:UIControlEventTouchUpInside];
-    settingsButtonView.tintColor = [UIColor blueColor];
-    settingsButtonView.toggledTintColor = [UIColor redColor];
-    
     UIBarButtonItem * settingsButton = [[UIBarButtonItem alloc]initWithCustomView:settingsButtonView];
     self.navigationItem.leftBarButtonItem = settingsButton;
     
@@ -85,7 +91,7 @@
     mover = 220;
     X = -mover;
     
-    settingsVC.view.frame = CGRectMake(X, 0, mover, SCREEN_HEIGHT);
+    settingsVC.view.frame = CGRectMake(X, 44, mover, SCREEN_HEIGHT);
     
     self.navigationItem.rightBarButtonItems = @[createNewPlotPoint, self.editButtonItem];
 }
@@ -103,20 +109,32 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    UILabel * chapterName = [[UILabel alloc]initWithFrame:CGRectMake(40, 20, self.view.frame.size.width -12, 20)];
-    
+    UILabel * chapterName = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, 200, 20)];
+    UIView * back = [[UIView alloc]initWithFrame:CGRectMake(-10, 12, 275, chapterName.frame.size.height+34)];
+    back.layer.cornerRadius = 5;
+    back.backgroundColor = TEXTBOX_COLOR;
+    chapterName.backgroundColor = TEXTBOX_COLOR;
+    //    projectName.textAlignment = NSTextAlignmentCenter;
     chapterName.text = allChapters[indexPath.row][@"heading"];
+    chapterName.textColor = BACKGROUND_COLOR;
     
-    if (cell == nil)
-    {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
+    if (cell == nil) cell = [[SYBInfoCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    [back addSubview:chapterName];
+    [cell addSubview:back];
+    cell.height = back.frame.size.height;
+    cell.color = TEXTBOX_COLOR;
     
-    [cell addSubview:chapterName];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    [cell makeCell];
+    
+    cell.backgroundColor =[UIColor clearColor];
     
     return cell;
+    
+    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,6 +151,7 @@
 -(void)newPlotWindow
 {
     UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:plotWindow];
+    nc.navigationBarHidden = YES;
     [self.navigationController presentViewController:nc animated:YES completion:^{
         [plotWindow buttonLabels];
     }];
@@ -146,11 +165,11 @@
     
     if (X == 0)
     {
-        [self.view addSubview:settingsVC.view];
+        [self.navigationController.view addSubview:settingsVC.view];
     }
     
     [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        settingsVC.view.frame = CGRectMake(X, 0, mover, SCREEN_HEIGHT);
+        settingsVC.view.frame = CGRectMake(X, 44, mover, SCREEN_HEIGHT);
     } completion:^(BOOL finished) {
         if (X == mover)
         {
@@ -162,7 +181,6 @@
 
 -(void)pushViewController:(UIViewController *)view
 {
-    NSLog(@"pressed");
     [self openSettings];
     [self.navigationController pushViewController:view animated:YES];
 }
@@ -179,7 +197,6 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Delete the row from the data source
-    NSLog(@"%@",allChapters);
     [[SYBData mainData].currentProject[@"projectInfo"] removeObjectAtIndex:indexPath.row];
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -196,6 +213,12 @@
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 
 /*
 #pragma mark - Navigation

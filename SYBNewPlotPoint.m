@@ -26,6 +26,8 @@
     UITextField * newItemName;
     UIButton * addItemButton;
     
+    UIView * color;
+    
     UIButton * selectChapter;
     UIButton * selectCharacter;
     UIButton * newChapterButton;
@@ -59,54 +61,87 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.view.backgroundColor = [UIColor whiteColor];
+    UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    background.image = [UIImage imageNamed:@"background"];
+    [self.view insertSubview:background atIndex:0];
+    
     addNewBackground = [[UIView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 60)];
-    addNewBackground.backgroundColor = [UIColor blueColor];
+    
+    UIView * bar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 47)];
+    bar.backgroundColor = TOP_COLOR;
+    [self.view addSubview:bar];
     
     self.editNumber = -1;
     
     addItemButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 70 , 10, 40, 40)];
-    addItemButton.backgroundColor = [UIColor redColor];
     addItemButton.layer.cornerRadius = 20;
+    [addItemButton setImage:[UIImage imageNamed:@"plus_dark"] forState:UIControlStateNormal];
+    addItemButton.layer.masksToBounds = YES;
     [addItemButton addTarget:self action:@selector(addNewItemToArray) forControlEvents:UIControlEventTouchUpInside];
     [addNewBackground addSubview:addItemButton];
     
-    self.storyThought = [[UITextView alloc]initWithFrame:CGRectMake(20, 80, SCREEN_WIDTH-40, SCREEN_HEIGHT - 300)];
-    self.storyThought.backgroundColor = [UIColor lightGrayColor];
+    self.storyThought = [[UITextView alloc]initWithFrame:CGRectMake(-10, 64, 315, 306)];
+    self.storyThought.textContainerInset = UIEdgeInsetsMake(10, 20, 20, 20);
+    self.storyThought.backgroundColor = TEXTBOX_COLOR;
+    self.storyThought.layer.cornerRadius = 5;
+    self.storyThought.textAlignment = NSTextAlignmentLeft;
+    self.storyThought.textColor = BACKGROUND_COLOR;
+    self.storyThought.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     [self.view addSubview:self.storyThought];
     
-    newChapterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-60, SCREEN_HEIGHT-162, 40, 40)];
-    newChapterButton.layer.cornerRadius = newChapterButton.frame.size.height/2;
-    newChapterButton.backgroundColor = [UIColor redColor];
-    [newChapterButton setTitle:@"+" forState:UIControlStateNormal];
+    newChapterButton = [[UIButton alloc]initWithFrame:CGRectMake(285, 393, 20, 20)];
+    newChapterButton.layer.cornerRadius = 10;
+    [newChapterButton setImage:[UIImage imageNamed:@"plus_dark"] forState:UIControlStateNormal];
+    newChapterButton.layer.masksToBounds = YES;
     [newChapterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newChapterButton];
     
-    selectChapter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-162, SCREEN_WIDTH - 90, 40)];
-    selectChapter.backgroundColor = [UIColor blueColor];
-    selectChapter.tag = 0;
+    selectChapter = [[UIButton alloc]initWithFrame:CGRectMake(15, 385, 200, 40)];
+    [selectChapter setTitle:@"This is a chapter" forState:UIControlStateNormal];
+    [selectChapter.titleLabel.font fontWithSize:17];
+    selectChapter.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [selectChapter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
+    [selectChapter setTitleColor:[UIColor colorWithRed:161/255.0 green:151/255.0 blue:110/255.0 alpha:1] forState:UIControlStateNormal];
+    
     [self.view addSubview:selectChapter];
     
-    newCharacterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-60, SCREEN_HEIGHT-112, 40, 40)];
-    newCharacterButton.layer.cornerRadius = newCharacterButton.frame.size.height/2;
-    newCharacterButton.backgroundColor = [UIColor redColor];
-    [newCharacterButton setTitle:@"+" forState:UIControlStateNormal];
+    newCharacterButton = [[UIButton alloc]initWithFrame:CGRectMake(285, 452, 20, 20)];
+    newCharacterButton.layer.cornerRadius = 10;
+    [newCharacterButton setImage:[UIImage imageNamed:@"plus_dark"] forState:UIControlStateNormal];
+    newCharacterButton.layer.masksToBounds = YES;
     [newCharacterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newCharacterButton];
     
-    selectCharacter = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT-112, SCREEN_WIDTH-90, 40)];
-    selectCharacter.tag = 0;
-    selectCharacter.backgroundColor = [UIColor blueColor];
+    selectCharacter = [[UIButton alloc]initWithFrame:CGRectMake(15, 444, 200, 40)];
+    [selectCharacter setTitleColor:[UIColor colorWithRed:161/255.0 green:151/255.0 blue:110/255.0 alpha:1] forState:UIControlStateNormal];
+    [selectCharacter.titleLabel.font fontWithSize:17];
+    selectCharacter.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [selectCharacter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectCharacter];
     
-    addPlotPoint = [[UIButton alloc]initWithFrame:CGRectMake(20, SCREEN_HEIGHT - 62, SCREEN_WIDTH - 40, 40)];
-    addPlotPoint.layer.cornerRadius = 20;
-    addPlotPoint.backgroundColor = [UIColor yellowColor];
+    color = [[UIButton alloc]initWithFrame:CGRectMake(220, 450, 24, 24)];
+    color.layer.cornerRadius = 12;
+    [self.view addSubview:color];
+    
+    addPlotPoint = [[UIButton alloc]initWithFrame:CGRectMake(15, SCREEN_HEIGHT - 58, SCREEN_WIDTH -30, 40)];
+    addPlotPoint.layer.cornerRadius = 5;
+    [addPlotPoint setTitle:@"Add to Story" forState:UIControlStateNormal];
+    addPlotPoint.backgroundColor = ONE_BUTTON;
+    addPlotPoint.titleLabel.textColor = TEXTBOX_COLOR;
     [addPlotPoint addTarget:self action:@selector(addNewPlotPoint) forControlEvents:UIControlEventTouchUpInside];
-    [addPlotPoint setTitle:@"Add To Story" forState:UIControlStateNormal];
     [self.view addSubview:addPlotPoint];
+    
+    UIView * line1 = [[UIView alloc]initWithFrame:CGRectMake(15, 425, 290, 0.5)];
+    line1.backgroundColor = TEXTBOX_COLOR;
+    [self.view addSubview:line1];
+    
+    UIView * line2 = [[UIView alloc]initWithFrame:CGRectMake(15, 483, 290, 0.5)];
+    line2.backgroundColor = TEXTBOX_COLOR;
+    [self.view addSubview:line2];
+    
+    UISwipeGestureRecognizer * swipeDown = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismissed)];
+    swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:swipeDown];
 }
 
 -(void)buttonLabels
@@ -127,7 +162,11 @@
     if ([[SYBData mainData].characters count] != 0)
     {
         if (self.characterAssignment) {
-            NSLog(@"2");
+            [selectCharacter setTitle:self.characterAssignment forState:UIControlStateNormal];
+            color.backgroundColor = [SYBData mainData].characters[self.characterAssignment];
+        }else {
+            self.characterAssignment = [[SYBData mainData].characters allKeys][0];
+            color.backgroundColor = [SYBData mainData].characters[self.characterAssignment];
             [selectCharacter setTitle:self.characterAssignment forState:UIControlStateNormal];
         }
  
@@ -161,8 +200,8 @@
         }
     }
     
-    listPick = [[UIPickerView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-162, SCREEN_WIDTH - SCREEN_WIDTH, 162)];
-    listPick.backgroundColor = [UIColor redColor];
+    listPick = [[UIPickerView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 162)];
+    listPick.backgroundColor = TOP_COLOR;
     listPick.delegate = self;
     chosen = sender;
     
@@ -172,6 +211,12 @@
     {
         [listPick selectRow:sender.tag inComponent:0 animated:YES];
     }
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        listPick.frame = CGRectMake(0, SCREEN_HEIGHT-180, SCREEN_WIDTH, 162);
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 -(void)addNewPlotPoint
@@ -185,11 +230,11 @@
             [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }else{
             
-            [[SYBData mainData].chapters[self.chapterAssignment][@"info"] removeObjectAtIndex:self.editNumber];
-            if (self.editNumber != [[SYBData mainData].chapters[self.chapterAssignment][@"info"] count])
-            {
-                [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
-            }
+            [[SYBData mainData].chapters[[SYBData mainData].selectedChapter][@"info"] removeObjectAtIndex:self.editNumber];
+//            if (self.editNumber != [[SYBData mainData].chapters[self.chapterAssignment][@"info"] count])
+//            {
+//                [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.editNumber];
+//            }
             [[SYBData mainData] addNewPlotPoint:plotPoint atIndex:self.chapterAssignment];
         }
     }
@@ -207,13 +252,18 @@
     } else {
         button = 2;
     }
-    [self.storyThought removeFromSuperview];
     
     newItemName = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 90, 40)];
-    newItemName.backgroundColor = [UIColor lightGrayColor];
+    newItemName.backgroundColor = TEXTBOX_COLOR;
     [addNewBackground addSubview:newItemName];
+    [self.view insertSubview:addNewBackground belowSubview:self.storyThought];
     
-    [self.view addSubview:addNewBackground];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.storyThought.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.storyThought removeFromSuperview];
+    }];
+    
 }
 
 -(void)addNewItemToArray
@@ -233,9 +283,13 @@
         {
             if ([[SYBData mainData].characters count] == [[SYBData mainData].colors count])
             {
-                warning = [[UITextView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 60)];
-                warning.text = @"You have too many characters. \n There are no more colors to be assigned";
+                warning = [[UITextView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 200)];
+                warning.editable = NO;
+                warning.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
+                warning.text = @"You have too many characters. \nThere are no more colors to be assigned";
+                warning.backgroundColor = TOP_COLOR;
                 [self.view addSubview:warning];
+                
             }else{
                 [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
                 [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
@@ -243,15 +297,23 @@
         }
     }
     
-    
-    [newItemName removeFromSuperview];
-    [addNewBackground removeFromSuperview];
     [self.view addSubview:self.storyThought];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.storyThought.alpha = 1;
+    } completion:^(BOOL finished) {
+        [newItemName removeFromSuperview];
+        [addNewBackground removeFromSuperview];
+    }];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [listPick removeFromSuperview];
+    [UIView animateWithDuration:0.5 animations:^{
+        listPick.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 162);
+    } completion:^(BOOL finished) {
+        [listPick removeFromSuperview];
+    }];
     [warning removeFromSuperview];
     [self.storyThought resignFirstResponder];
 }
@@ -272,8 +334,16 @@
     }
     
     self.chapterAssignment = selectChapter.tag;
+    color.backgroundColor = [SYBData mainData].characters[selectCharacter.titleLabel.text];
     
-    [pickerView removeFromSuperview];
+    [UIView animateWithDuration:0.5 animations:^{
+        listPick.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 162);
+    } completion:^(BOOL finished) {
+        [pickerView removeFromSuperview];
+        [selectCharacter removeFromSuperview];
+        [self.view addSubview:selectCharacter];
+
+    }];
 }
 
 -(void)textViewDidChange:(UITextView *)textView
@@ -293,6 +363,16 @@
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {return 1;}
 
+-(void)dismissed
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [selectCharacter removeFromSuperview];
+        [selectChapter removeFromSuperview];
+    }];
+}
+
 - (BOOL)automaticallyAdjustsScrollViewInsets { return NO; }
+
+-(BOOL)prefersStatusBarHidden {return YES;}
 
 @end
