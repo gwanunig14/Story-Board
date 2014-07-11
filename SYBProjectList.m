@@ -64,10 +64,12 @@
     [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationTop];
     if ([[SYBData mainData].projects count] == 0)
     {
-        UITextView * welcome = [[UITextView alloc]initWithFrame:CGRectMake(40, 100, SCREEN_WIDTH - 80, 100)];
+        UITextView * welcome = [[UITextView alloc]initWithFrame:CGRectMake(40, 100, SCREEN_WIDTH - 80, 70)];
         welcome.textAlignment = NSTextAlignmentCenter;
         welcome.text =@"Welcome to \n Writer Blocks \n Click the + Button to Get Started";
-        welcome.backgroundColor = [UIColor blueColor];
+        welcome.backgroundColor = TOP_COLOR;
+        welcome.textColor = BACKGROUND_COLOR;
+        welcome.layer.cornerRadius = 5;
         [self.view addSubview:welcome];
     }
 }

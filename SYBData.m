@@ -109,6 +109,8 @@
 {
     [self.projects setObject:project forKey:key];
     
+    self.selectedProject = key;
+    
     [self saveData];
 }
 

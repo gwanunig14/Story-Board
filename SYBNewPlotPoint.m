@@ -21,12 +21,14 @@
     NSInteger button;
     
     UITextView * warning;
+    UITextView * done;
     
     UIView * addNewBackground;
     UITextField * newItemName;
     UIButton * addItemButton;
     
     UIView * color;
+    UIView * bar;
     
     UIButton * selectChapter;
     UIButton * selectCharacter;
@@ -43,8 +45,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.storyThought.delegate = self;
-        
         self.view.backgroundColor = [UIColor whiteColor];
         
         self.chapterAssignment = 0;
@@ -67,7 +67,7 @@
     
     addNewBackground = [[UIView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 60)];
     
-    UIView * bar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 47)];
+    bar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 47)];
     bar.backgroundColor = TOP_COLOR;
     [self.view addSubview:bar];
     
@@ -80,7 +80,15 @@
     [addItemButton addTarget:self action:@selector(addNewItemToArray) forControlEvents:UIControlEventTouchUpInside];
     [addNewBackground addSubview:addItemButton];
     
-    self.storyThought = [[UITextView alloc]initWithFrame:CGRectMake(-10, 64, 315, 306)];
+    self.storyThought = [[UITextView alloc]init];
+    NSLog(@"%f",SCREEN_HEIGHT);
+    if(SCREEN_HEIGHT == 480)
+    {
+        NSLog(@"short");
+        self.storyThought.frame = CGRectMake(-10, 64, 315, SCREEN_HEIGHT/2-60);
+    }else{
+        self.storyThought.frame = CGRectMake(-10, 64, 315, SCREEN_HEIGHT/2);
+    }
     self.storyThought.textContainerInset = UIEdgeInsetsMake(10, 20, 20, 20);
     self.storyThought.backgroundColor = TEXTBOX_COLOR;
     self.storyThought.layer.cornerRadius = 5;
@@ -88,15 +96,16 @@
     self.storyThought.textColor = BACKGROUND_COLOR;
     self.storyThought.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
     [self.view addSubview:self.storyThought];
+    self.storyThought.delegate = self;
     
-    newChapterButton = [[UIButton alloc]initWithFrame:CGRectMake(285, 393, 20, 20)];
+    newChapterButton = [[UIButton alloc]initWithFrame:CGRectMake(285, self.storyThought.frame.origin.y + SCREEN_HEIGHT/2 + 28, 20, 20)];
     newChapterButton.layer.cornerRadius = 10;
     [newChapterButton setImage:[UIImage imageNamed:@"plus_dark"] forState:UIControlStateNormal];
     newChapterButton.layer.masksToBounds = YES;
     [newChapterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newChapterButton];
     
-    selectChapter = [[UIButton alloc]initWithFrame:CGRectMake(15, 385, 200, 40)];
+    selectChapter = [[UIButton alloc]initWithFrame:CGRectMake(15, self.storyThought.frame.origin.y + SCREEN_HEIGHT/2 + 20, 200, 40)];
     [selectChapter setTitle:@"This is a chapter" forState:UIControlStateNormal];
     [selectChapter.titleLabel.font fontWithSize:17];
     selectChapter.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -105,21 +114,21 @@
     
     [self.view addSubview:selectChapter];
     
-    newCharacterButton = [[UIButton alloc]initWithFrame:CGRectMake(285, 452, 20, 20)];
+    newCharacterButton = [[UIButton alloc]initWithFrame:CGRectMake(285, selectChapter.frame.origin.y + 58, 20, 20)];
     newCharacterButton.layer.cornerRadius = 10;
     [newCharacterButton setImage:[UIImage imageNamed:@"plus_dark"] forState:UIControlStateNormal];
     newCharacterButton.layer.masksToBounds = YES;
     [newCharacterButton addTarget:self action:@selector(addItem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newCharacterButton];
     
-    selectCharacter = [[UIButton alloc]initWithFrame:CGRectMake(15, 444, 200, 40)];
+    selectCharacter = [[UIButton alloc]initWithFrame:CGRectMake(15, selectChapter.frame.origin.y + 50, 200, 40)];
     [selectCharacter setTitleColor:[UIColor colorWithRed:161/255.0 green:151/255.0 blue:110/255.0 alpha:1] forState:UIControlStateNormal];
     [selectCharacter.titleLabel.font fontWithSize:17];
     selectCharacter.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [selectCharacter addTarget:self action:@selector(openList:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:selectCharacter];
     
-    color = [[UIButton alloc]initWithFrame:CGRectMake(220, 450, 24, 24)];
+    color = [[UIButton alloc]initWithFrame:CGRectMake(220, selectChapter.frame.origin.y + 56, 24, 24)];
     color.layer.cornerRadius = 12;
     [self.view addSubview:color];
     
@@ -131,11 +140,11 @@
     [addPlotPoint addTarget:self action:@selector(addNewPlotPoint) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addPlotPoint];
     
-    UIView * line1 = [[UIView alloc]initWithFrame:CGRectMake(15, 425, 290, 0.5)];
+    UIView * line1 = [[UIView alloc]initWithFrame:CGRectMake(15, selectChapter.frame.origin.y + 40, 290, 0.5)];
     line1.backgroundColor = TEXTBOX_COLOR;
     [self.view addSubview:line1];
     
-    UIView * line2 = [[UIView alloc]initWithFrame:CGRectMake(15, 483, 290, 0.5)];
+    UIView * line2 = [[UIView alloc]initWithFrame:CGRectMake(15, selectCharacter.frame.origin.y + 40, 290, 0.5)];
     line2.backgroundColor = TEXTBOX_COLOR;
     [self.view addSubview:line2];
     
@@ -200,6 +209,11 @@
         }
     }
     
+    NSLog(@"%@",scrollArray);
+    
+    if ([scrollArray count] == 0) {
+        return;
+    }
     listPick = [[UIPickerView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 162)];
     listPick.backgroundColor = TOP_COLOR;
     listPick.delegate = self;
@@ -239,10 +253,7 @@
         }
     }
         
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self.storyThought removeFromSuperview];
-        
-    }];
+    [self dismissed];
 }
 
 -(void)addItem:(UIButton *)sender
@@ -255,6 +266,7 @@
     
     newItemName = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH - 90, 40)];
     newItemName.backgroundColor = TEXTBOX_COLOR;
+    newItemName.layer.cornerRadius = 5;
     [addNewBackground addSubview:newItemName];
     [self.view insertSubview:addNewBackground belowSubview:self.storyThought];
     
@@ -293,6 +305,8 @@
             }else{
                 [selectCharacter setTitle:newItemName.text forState:UIControlStateNormal];
                 [[SYBData mainData] addNewCharacter:newItemName.text withNumber:[[SYBData mainData].characters count]];
+                color.backgroundColor = [SYBData mainData].characters[selectCharacter.titleLabel.text];
+                NSLog(@"%@",[SYBData mainData].characters);
             }
         }
     }
@@ -316,6 +330,7 @@
     }];
     [warning removeFromSuperview];
     [self.storyThought resignFirstResponder];
+    [done removeFromSuperview];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -346,9 +361,14 @@
     }];
 }
 
--(void)textViewDidChange:(UITextView *)textView
+-(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [addItemButton setTitle:@"Add To Story" forState:UIControlStateNormal];
+    done = [[UITextView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2)-30, 5, 60, 37)];
+    done.backgroundColor = [UIColor clearColor];
+    done.text = @"Done";
+    done.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
+    done.textColor = BACKGROUND_COLOR;
+    [bar addSubview:done];
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
@@ -368,6 +388,7 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         [selectCharacter removeFromSuperview];
         [selectChapter removeFromSuperview];
+        [self.storyThought removeFromSuperview];
     }];
 }
 

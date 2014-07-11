@@ -34,6 +34,12 @@
         self.view.backgroundColor = [UIColor clearColor];
         
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        
+        UISwipeGestureRecognizer * rSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismissed)];
+        rSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rSwipe];
+        
+        [self.navigationItem setHidesBackButton:YES animated:YES];
     }
     return self;
 }
@@ -82,6 +88,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dismissed
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(BOOL)prefersStatusBarHidden

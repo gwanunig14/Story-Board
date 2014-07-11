@@ -29,7 +29,7 @@
 
 -(void)titleWithText:(NSString *)text
 {
-    UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2) - 100, 2, 200, 40)];
+    UILabel * title = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2) - 100, 2, 160, 40)];
     title.text = text;
     title.textColor = BACKGROUND_COLOR;
     title.textAlignment = NSTextAlignmentCenter;

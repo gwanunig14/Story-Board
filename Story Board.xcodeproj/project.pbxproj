@@ -56,6 +56,7 @@
 /* Begin PBXFileReference section */
 		9C38F3A7193E4ABE00F9964C /* SYBChangeName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBChangeName.h; sourceTree = "<group>"; };
 		9C38F3A8193E4ABE00F9964C /* SYBChangeName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBChangeName.m; sourceTree = "<group>"; };
+		9C3C786F195CB60A0096049D /* Story Board.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Story Board.entitlements"; sourceTree = "<group>"; };
 		9C46B39E193F89BA00DB016F /* SYBChapterList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBChapterList.h; sourceTree = "<group>"; };
 		9C46B39F193F89BA00DB016F /* SYBChapterList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYBChapterList.m; sourceTree = "<group>"; };
 		9C46B3A1193F989900DB016F /* SYBCharacterList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYBCharacterList.h; sourceTree = "<group>"; };
@@ -204,6 +205,7 @@
 		9C723C191925275400B151FB /* Story Board */ = {
 			isa = PBXGroup;
 			children = (
+				9C3C786F195CB60A0096049D /* Story Board.entitlements */,
 				9C723C221925275400B151FB /* SYBAppDelegate.h */,
 				9C723C231925275400B151FB /* SYBAppDelegate.m */,
 				9C723C251925275400B151FB /* Images.xcassets */,
@@ -334,6 +336,11 @@
 				TargetAttributes = {
 					9C723C0F1925275400B151FB = {
 						DevelopmentTeam = YUM7RTQH92;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 					9C723C2A1925275400B151FB = {
 						TestTargetID = 9C723C0F1925275400B151FB;
@@ -463,6 +470,78 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9C3C7870195CCACD0096049D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "DF275E7F-AD3C-49B5-9D64-3513C48B1003";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		9C3C7871195CCACD0096049D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Story Board/Story Board-Prefix.pch";
+				INFOPLIST_FILE = "Story Board/Story Board-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "DF275E7F-AD3C-49B5-9D64-3513C48B1003";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Distribution;
+		};
+		9C3C7872195CCACD0096049D /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Story Board.app/Story Board";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Story Board/Story Board-Prefix.pch";
+				INFOPLIST_FILE = "Story BoardTests/Story BoardTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Distribution;
+		};
 		9C723C3A1925275400B151FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -479,7 +558,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -497,6 +577,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "DF275E7F-AD3C-49B5-9D64-3513C48B1003";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -517,7 +598,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -528,6 +610,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "DF275E7F-AD3C-49B5-9D64-3513C48B1003";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -538,8 +621,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -548,7 +631,7 @@
 				GCC_PREFIX_HEADER = "Story Board/Story Board-Prefix.pch";
 				INFOPLIST_FILE = "Story Board/Story Board-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "DF275E7F-AD3C-49B5-9D64-3513C48B1003";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -558,8 +641,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Thomas Mercer (E6K8FLBN4R)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -568,7 +651,7 @@
 				GCC_PREFIX_HEADER = "Story Board/Story Board-Prefix.pch";
 				INFOPLIST_FILE = "Story Board/Story Board-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "DF275E7F-AD3C-49B5-9D64-3513C48B1003";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -621,6 +704,7 @@
 			buildConfigurations = (
 				9C723C3A1925275400B151FB /* Debug */,
 				9C723C3B1925275400B151FB /* Release */,
+				9C3C7870195CCACD0096049D /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -630,6 +714,7 @@
 			buildConfigurations = (
 				9C723C3D1925275400B151FB /* Debug */,
 				9C723C3E1925275400B151FB /* Release */,
+				9C3C7871195CCACD0096049D /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -639,6 +724,7 @@
 			buildConfigurations = (
 				9C723C401925275400B151FB /* Debug */,
 				9C723C411925275400B151FB /* Release */,
+				9C3C7872195CCACD0096049D /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

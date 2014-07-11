@@ -57,12 +57,15 @@
         
         allChapters = [SYBData mainData].currentProject[@"projectInfo"];
         
+        NSLog(@"A");
+        
         UIImageView * background = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         background.image = [UIImage imageNamed:@"background"];
         [self.view insertSubview:background atIndex:0];
         
         self.tableView.rowHeight = 78;
         self.tableView.separatorColor = [UIColor clearColor];
+        
     }
     return self;
 }

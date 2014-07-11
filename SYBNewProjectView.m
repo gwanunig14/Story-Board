@@ -76,8 +76,6 @@
         
         [[SYBData mainData] addNewProject:project atKey:projectName.text];
         
-        [SYBData mainData].selectedProject = [SYBData mainData].allProjects[projectName.text];
-        
         chapters = [[SYBChapterView alloc]init];
         
         nc = [[SYBNav alloc]initWithRootViewController:chapters];
@@ -87,9 +85,15 @@
         [self.navigationController presentViewController:nc animated:YES completion:^{
             [self.view removeFromSuperview];
         }];
+        
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [projectName resignFirstResponder];
 }
 
 -(void)dismissed

@@ -39,6 +39,8 @@
         UISwipeGestureRecognizer * rSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(dismissed)];
         rSwipe.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rSwipe];
+        
+        [self.navigationItem setHidesBackButton:YES animated:YES];
     }
     return self;
 }
@@ -117,6 +119,12 @@
     
     [self.navigationController pushViewController:colors animated:YES];
 }
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [projectName resignFirstResponder];
+}
+
 
 -(void)dismissed
 {

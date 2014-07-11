@@ -58,6 +58,13 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    view.tintColor = TOP_COLOR;
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor colorWithRed:240/255.0 green:236/255.0 blue:214/255.0 alpha:1]];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -70,6 +77,7 @@
 {
     return [[SYBData mainData].chapters count];
 }
+
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -106,6 +114,7 @@
     NSString * character = [SYBData mainData].chapters[indexPath.section][@"info"][indexPath.row][@"character"];
     cell.color = [SYBData mainData].characters[character];
     cell.background.backgroundColor = TEXTBOX_COLOR;
+    cell.backgroundColor = [UIColor clearColor];
     
     [cell makeCell];
     [cell fullview];
