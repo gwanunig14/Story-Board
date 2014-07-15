@@ -19,6 +19,7 @@
 @implementation SYBChangeName
 {
     SYBChapterView * chapters;
+    SYBNav * nc;
     
     UITextField * projectName;
     UIButton * createProject;
@@ -50,6 +51,8 @@
     h = self.view.frame.size.height;
     w = self.view.frame.size.width;
     
+    int y = h/2;
+    
     projectName = [[UITextField alloc]initWithFrame:CGRectMake(20, h/4, w-40, 40)];
     projectName.backgroundColor=TEXTBOX_COLOR;
     projectName.textColor = BACKGROUND_COLOR;
@@ -59,9 +62,22 @@
     projectName.leftView = paddingView;
     projectName.leftViewMode = UITextFieldViewModeAlways;
     projectName.layer.cornerRadius = 5;
+    projectName.delegate = self;
     [self.view addSubview:projectName];
     
-    createProject = [[UIButton alloc]initWithFrame:CGRectMake(20, h/2, w-40, 40)];
+    if (self.function == 3) {
+        UIButton * cColor = [[UIButton alloc]initWithFrame:CGRectMake(20, h/2, w-40, 40)];
+        cColor.backgroundColor = [SYBData mainData].characters[self.oldTitle];
+        cColor.layer.cornerRadius = 5;
+        [cColor setTitle:@"Change Color" forState:UIControlStateNormal];
+        [cColor setTitleColor:[UIColor colorWithRed:240/255.0 green:236/255.0 blue:214/255.0 alpha:1] forState:UIControlStateNormal];
+        [cColor addTarget:self action:@selector(colorChange) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:cColor];
+        
+        y = h*0.75;
+    }
+    
+    createProject = [[UIButton alloc]initWithFrame:CGRectMake(20, y, w-40, 40)];
     [createProject setTitle:@"Save Change" forState:UIControlStateNormal];
     createProject.layer.cornerRadius = 10;
     [createProject setTitleColor:[UIColor colorWithRed:161/255.0 green:151/255.0 blue:110/255.0 alpha:1] forState:UIControlStateNormal];
@@ -69,15 +85,6 @@
     [createProject addTarget:self action:@selector(editProject) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:createProject];
     
-    if (self.function == 3) {
-        UIButton * cColor = [[UIButton alloc]initWithFrame:CGRectMake(20, h-100, w-40, 40)];
-        cColor.backgroundColor = [SYBData mainData].characters[self.oldTitle];
-        cColor.layer.cornerRadius = 5;
-        [cColor setTitle:@"Change Color" forState:UIControlStateNormal];
-        [cColor setTitleColor:[UIColor colorWithRed:240/255.0 green:236/255.0 blue:214/255.0 alpha:1] forState:UIControlStateNormal];
-        [cColor addTarget:self action:@selector(colorChange) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:cColor];
-    }
 }
 
 -(void)editProject
@@ -96,6 +103,15 @@
         {
             [[SYBData mainData].characters setObject:[[SYBData mainData].characters objectForKey:self.oldTitle] forKey:projectName.text];
             [[SYBData mainData].characters removeObjectForKey:self.oldTitle];
+            for (NSDictionary * chapter in [SYBData mainData].chapters) {
+                for (NSDictionary * change in chapter[@"info"]) {
+                    NSLog(@"%@",change);
+                    if ([[change valueForKey:@"character"] isEqualToString:self.oldTitle]) {
+                        [change setValue:projectName.text forKey:@"character"];
+                        NSLog(@"2 %@",change);
+                    }
+                }
+            }
         }
     }
     
@@ -103,7 +119,7 @@
     
     chapters = [[SYBChapterView alloc]init];
     
-    UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:chapters];
+    nc = [[SYBNav alloc]initWithRootViewController:chapters];
     
     [self.navigationController presentViewController:nc animated:YES completion:^{
         [self.view removeFromSuperview];
@@ -125,6 +141,11 @@
     [projectName resignFirstResponder];
 }
 
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
+}
 
 -(void)dismissed
 {

@@ -68,6 +68,7 @@
     self = [super initWithStyle:style];
     if (self)
     {
+        NSLog(@"%@",[SYBData mainData].chapters);
         characters = [@[] mutableCopy];
         
         plotWindow = [[SYBNewPlotPoint alloc]init];

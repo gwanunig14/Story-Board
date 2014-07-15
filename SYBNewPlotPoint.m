@@ -21,7 +21,7 @@
     NSInteger button;
     
     UITextView * warning;
-    UITextView * done;
+    UILabel * done;
     
     UIView * addNewBackground;
     UITextField * newItemName;
@@ -237,6 +237,51 @@
 {
     if ([self.storyThought.text length] > 0)
     {
+        NSLog(@"1");
+        if ([[SYBData mainData].characters count] == 0)
+        {
+            NSLog(@"A");
+            warning = [[UITextView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 115)];
+            warning.layer.cornerRadius = 5;
+            warning.editable = NO;
+            warning.textAlignment = NSTextAlignmentCenter;
+            warning.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
+            warning.text = @"You must create a Character \nto add your idea.";
+            warning.backgroundColor = TOP_COLOR;
+            [self.view addSubview:warning];
+            
+            done = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2)-30, 5, 60, 37)];
+            done.backgroundColor = [UIColor clearColor];
+            done.text = @"OK";
+            done.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
+            done.textColor = BACKGROUND_COLOR;
+            [bar addSubview:done];
+            
+            return;
+        }
+        
+        if ([[SYBData mainData].chapters count] == 0)
+        {
+            NSLog(@"B");
+            warning = [[UITextView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 115)];
+            warning.layer.cornerRadius = 5;
+            warning.editable = NO;
+            warning.textAlignment = NSTextAlignmentCenter;
+            warning.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
+            warning.text = @"You must create a \nchapter/scene \nto add your idea.";
+            warning.backgroundColor = TOP_COLOR;
+            [self.view addSubview:warning];
+            
+            done = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2)-30, 5, 60, 37)];
+            done.backgroundColor = [UIColor clearColor];
+            done.text = @"OK";
+            done.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
+            done.textColor = BACKGROUND_COLOR;
+            [bar addSubview:done];
+            
+            return;
+        }
+        
         NSMutableDictionary * plotPoint = [@{@"plotpoint":self.storyThought.text,
                                              @"character":selectCharacter.titleLabel.text}mutableCopy];
         
@@ -295,8 +340,10 @@
         {
             if ([[SYBData mainData].characters count] == [[SYBData mainData].colors count])
             {
-                warning = [[UITextView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 200)];
+                warning = [[UITextView alloc]initWithFrame:CGRectMake(10, 200, SCREEN_WIDTH-20, 115)];
+                warning.layer.cornerRadius = 5;
                 warning.editable = NO;
+                warning.textAlignment = NSTextAlignmentCenter;
                 warning.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
                 warning.text = @"You have too many characters. \nThere are no more colors to be assigned";
                 warning.backgroundColor = TOP_COLOR;
@@ -363,7 +410,7 @@
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    done = [[UITextView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2)-30, 5, 60, 37)];
+    done = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH/2)-30, 5, 60, 37)];
     done.backgroundColor = [UIColor clearColor];
     done.text = @"Done";
     done.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
